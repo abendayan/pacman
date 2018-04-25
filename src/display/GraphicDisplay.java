@@ -1,6 +1,8 @@
 package display;
 
+import game.AgentState;
 import game.GameStateData;
+import utils.Tuple;
 
 import java.awt.*;
 
@@ -45,6 +47,53 @@ public class GraphicDisplay extends Canvas implements Display {
     @Override
     public void initialize(GameStateData state, boolean isBlue) {
         toDraw = state.toChars();
+        rightImage = createImage(40, 40);
+        pacmanRight = rightImage.getGraphics();
+
+        pacmanRight.setColor(Color.YELLOW);
+        pacmanRight.drawOval(0, 0, 40, 40);
+        pacmanRight.fillOval(0, 0, 40, 40);
+        pacmanRight.setColor(Color.BLACK);
+        pacmanRight.drawOval(25, 10, 10, 10);
+        pacmanRight.fillOval(25, 10, 10, 10);
+        pacmanRight.drawRect(30, 20, 10, 10);
+        pacmanRight.fillRect(30, 20, 10, 10);
+
+        leftImage = createImage(40, 40);
+        pacmanLeft = leftImage.getGraphics();
+
+        pacmanLeft.setColor(Color.YELLOW);
+        pacmanLeft.drawOval(0, 0, 40, 40);
+        pacmanLeft.fillOval(0, 0, 40, 40);
+        pacmanLeft.setColor(Color.BLACK);
+        pacmanLeft.drawOval(5, 10, 10, 10);
+        pacmanLeft.fillOval(5, 10, 10, 10);
+        pacmanLeft.drawRect(0, 20, 10, 10);
+        pacmanLeft.fillRect(0, 20, 10, 10);
+
+        upImage = createImage(40, 40);
+        pacmanUp = upImage.getGraphics();
+
+        pacmanUp.setColor(Color.YELLOW);
+        pacmanUp.drawOval(0, 0, 40, 40);
+        pacmanUp.fillOval(0, 0, 40, 40);
+        pacmanUp.setColor(Color.BLACK);
+        pacmanUp.drawOval(5, 10, 10, 10);
+        pacmanUp.fillOval(5, 10, 10, 10);
+        pacmanUp.drawRect(15, 0, 10, 10);
+        pacmanUp.fillRect(15, 0, 10, 10);
+
+        downImage = createImage(40, 40);
+        pacmanDown = downImage.getGraphics();
+
+        pacmanDown.setColor(Color.YELLOW);
+        pacmanDown.drawOval(0, 0, 40, 40);
+        pacmanDown.fillOval(0, 0, 40, 40);
+        pacmanDown.setColor(Color.BLACK);
+        pacmanDown.drawOval(5, 25, 10, 10);
+        pacmanDown.fillOval(5, 25, 10, 10);
+        pacmanDown.drawRect(15, 30, 10, 10);
+        pacmanDown.fillRect(15, 30, 10, 10);
         draw(state);
         pause();
         turn = 0;
@@ -76,13 +125,20 @@ public class GraphicDisplay extends Canvas implements Display {
     @Override
     public void draw(GameStateData state) {
         if(state.isScared()) {
-            colorGhost = Color.YELLOW;
+            colorGhost = Color.CYAN;
         }
         else {
             colorGhost = Color.ORANGE;
         }
         toDraw = state.toChars();
-        repaint();
+//        repaint();
+        int wall_radius = 50;
+        int x, y;
+        for(AgentState agentState : state.agentStates) {
+            x = (int) agentState.getPosition().x;
+            y = (int) agentState.getPosition().y;
+            repaint(x*wall_radius-50,height - (y+1)*wall_radius + 5-50,150,150);
+        }
     }
 
     public void paint(Graphics g) {
@@ -101,8 +157,8 @@ public class GraphicDisplay extends Canvas implements Display {
             for(int j = 0; j < height/wall_radius; j++) {
                 if(toDraw[i][j] == '.') {
                     g.setColor(Color.white);
-                    g.drawOval(i*wall_radius, height - (j+1)*wall_radius, 40, 40);
-                    g.fillOval(i*wall_radius, height - (j+1)*wall_radius, 40, 40);
+                    g.drawOval(i*wall_radius+20, height - (j+1)*wall_radius+20, 20, 20);
+                    g.fillOval(i*wall_radius+20, height - (j+1)*wall_radius+20, 20, 20);
                 }
                 if(toDraw[i][j] == 'o') {
                     g.setColor(Color.red);
@@ -114,69 +170,17 @@ public class GraphicDisplay extends Canvas implements Display {
                     bBG.drawRect(i*wall_radius, height - (j+1)*wall_radius, wall_radius, wall_radius);
                 }
                 else if(toDraw[i][j] == '<') {
-                    if(leftImage == null) {
-                        leftImage = createImage(40, 40);
-                        pacmanLeft = leftImage.getGraphics();
-
-                        pacmanLeft.setColor(Color.YELLOW);
-                        pacmanLeft.drawOval(0, 0, 40, 40);
-                        pacmanLeft.fillOval(0, 0, 40, 40);
-                        pacmanLeft.setColor(Color.BLACK);
-                        pacmanLeft.drawOval(5, 10, 10, 10);
-                        pacmanLeft.fillOval(5, 10, 10, 10);
-                        pacmanLeft.drawRect(0, 20, 10, 10);
-                        pacmanLeft.fillRect(0, 20, 10, 10);
-                    }
                     g.drawImage( leftImage, i*wall_radius, height - (j+1)*wall_radius+5, this );
                 }
                 else if(toDraw[i][j] == '>') {
-                    if(rightImage == null) {
-                        rightImage = createImage(40, 40);
-                        pacmanRight = rightImage.getGraphics();
-
-                        pacmanRight.setColor(Color.YELLOW);
-                        pacmanRight.drawOval(0, 0, 40, 40);
-                        pacmanRight.fillOval(0, 0, 40, 40);
-                        pacmanRight.setColor(Color.BLACK);
-                        pacmanRight.drawOval(25, 10, 10, 10);
-                        pacmanRight.fillOval(25, 10, 10, 10);
-                        pacmanRight.drawRect(30, 20, 10, 10);
-                        pacmanRight.fillRect(30, 20, 10, 10);
-                    }
                     g.drawImage( rightImage, i*wall_radius, height - (j+1)*wall_radius+5, this );
 
                 }
                 else if(toDraw[i][j] == '^') {
-                    if(upImage == null) {
-                        upImage = createImage(40, 40);
-                        pacmanUp = upImage.getGraphics();
-
-                        pacmanUp.setColor(Color.YELLOW);
-                        pacmanUp.drawOval(0, 0, 40, 40);
-                        pacmanUp.fillOval(0, 0, 40, 40);
-                        pacmanUp.setColor(Color.BLACK);
-                        pacmanUp.drawOval(5, 10, 10, 10);
-                        pacmanUp.fillOval(5, 10, 10, 10);
-                        pacmanUp.drawRect(15, 0, 10, 10);
-                        pacmanUp.fillRect(15, 0, 10, 10);
-                    }
                     g.drawImage( upImage, i*wall_radius, height - (j+1)*wall_radius+5, this );
 
                 }
                 else if(toDraw[i][j] == 'v') {
-                    if(downImage == null) {
-                        downImage = createImage(40, 40);
-                        pacmanDown = downImage.getGraphics();
-
-                        pacmanDown.setColor(Color.YELLOW);
-                        pacmanDown.drawOval(0, 0, 40, 40);
-                        pacmanDown.fillOval(0, 0, 40, 40);
-                        pacmanDown.setColor(Color.BLACK);
-                        pacmanDown.drawOval(5, 25, 10, 10);
-                        pacmanDown.fillOval(5, 25, 10, 10);
-                        pacmanDown.drawRect(15, 30, 10, 10);
-                        pacmanDown.fillRect(15, 30, 10, 10);
-                    }
                     g.drawImage( downImage, i*wall_radius, height - (j+1)*wall_radius+5, this );
                 }
                 else if(toDraw[i][j] == 'M' || toDraw[i][j] == 'W' || toDraw[i][j] == 'E' || toDraw[i][j] == '3' || toDraw[i][j] == 'G') {
