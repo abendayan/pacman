@@ -1,12 +1,11 @@
 package agents;
 
-import agents.GhostAgent;
 import game.Directions;
 import pacman.GameState;
 import utils.Counter;
 
 public class RandomGhost extends GhostAgent {
-    RandomGhost(int index) {
+    public RandomGhost(Integer index) {
         super(index);
     }
 

@@ -1,4 +1,3 @@
-import agents.DirectionalGhost;
 import agents.GhostAgent;
 import display.Display;
 import display.GraphicDisplay;
@@ -25,13 +24,16 @@ public class Main {
         Possible arguments:
         -l : the layout
         -p : the name of the pacman agent, if you want to play, it's KeyboardAgent (it's the default one)
-        -ghost: the ghost agent to use
+        -fn : the name of search function you want to use (with the search agent), the function is or in the SearchFunction class or in SearchFunctionHeuristic
+        -heur : the name of the heuristic you want to use (non mandatory), the function is in the Function class
+        -prob : the search problem you want to use, it will be PositionSearchProblem
      */
     public static void main(String[] args) {
         commands.put("-l", "mediumClassic");
         commands.put("-p", "KeyboardAgent");
         commands.put("-display", "graphic");
-        commands.put("-ghost", "DirectionalGhost");
+        commands.put("-depth", "2");
+        commands.put("-ghost", "RandomGhost");
         for(int i = 0; i < args.length; i+=2) {
             commands.put(args[i], args[i+1]);
         }
@@ -39,7 +41,14 @@ public class Main {
         if(layout == null) {
             System.err.println("The file did not load!");
         }
-        Agent pacmanAgent = Agent.loadAgent(commands.get("-p"));
+        Agent pacmanAgent;
+        if(commands.get("-p").equals("KeyboardAgent")) {
+            pacmanAgent = Agent.loadAgent(commands.get("-p"));
+        }
+        else{
+            pacmanAgent = Agent.loadAgent(commands.get("-p"), "scoreEvaluationFunction", Integer.parseInt(commands.get("depth")));
+        }
+
         if(pacmanAgent == null) {
             System.err.println("The agent did not load!");
         }

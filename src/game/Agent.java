@@ -12,6 +12,7 @@ public abstract class Agent {
     public Agent() {
         index = 0;
     }
+    public Agent(String evalFn, int depth) {}
 
     public abstract Directions getAction(GameState gameState);
 
@@ -25,10 +26,10 @@ public abstract class Agent {
         return agent;
     }
 
-    public static Agent loadAgent(String nameAgent, String searchProb, String fn, String heuristicString) {
+    public static Agent loadAgent(String nameAgent, String evalFn, int depth) {
         Agent agent = null;
         try {
-            agent = (Agent) Agent.class.getClassLoader().loadClass("agents."+nameAgent).getConstructor(String.class, String.class, String.class).newInstance(searchProb, fn, heuristicString);
+            agent = (Agent) Agent.class.getClassLoader().loadClass("agents."+nameAgent).getConstructor(String.class, Integer.class).newInstance(evalFn, depth);
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }

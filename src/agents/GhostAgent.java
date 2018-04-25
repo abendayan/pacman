@@ -39,6 +39,5 @@ public abstract class GhostAgent extends Agent{
             System.exit(-1);
         }
         return agent;
-
     }
 }
