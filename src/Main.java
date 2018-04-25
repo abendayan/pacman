@@ -39,7 +39,16 @@ public class Main {
         if(layout == null) {
             System.err.println("The file did not load!");
         }
-        Agent pacmanAgent = Agent.loadAgent(commands.get("-p"));
+        Agent pacmanAgent;
+        if(commands.containsKey("-fn")) {
+            if(!commands.containsKey("-prob")) {
+                commands.put("-prob", "PositionSearchProblem");
+            }
+            pacmanAgent = Agent.loadAgent(commands.get("-p"), commands.get("-prob"), commands.get("-fn"), commands.get("-heur"));
+        }
+        else {
+            pacmanAgent = Agent.loadAgent(commands.get("-p"));
+        }
         if(pacmanAgent == null) {
             System.err.println("The agent did not load!");
         }
