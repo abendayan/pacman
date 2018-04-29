@@ -46,8 +46,8 @@ public class GraphicDisplay extends Canvas implements Display {
     }
 
     @Override
-    public void initialize(GameState state, boolean isBlue) {
-        toDraw = state.data.toChars();
+    public void initialize(GameStateData state, boolean isBlue) {
+        toDraw = state.toChars();
         rightImage = createImage(40, 40);
         pacmanRight = rightImage.getGraphics();
 
@@ -102,8 +102,8 @@ public class GraphicDisplay extends Canvas implements Display {
     }
 
     @Override
-    public void update(GameState state) {
-        int numAgents = state.data.agentStates.size();
+    public void update(GameStateData state) {
+        int numAgents = state.agentStates.size();
         agentCounter = (agentCounter + 1) % numAgents;
         if(agentCounter == 0) {
             turn++;
@@ -112,29 +112,29 @@ public class GraphicDisplay extends Canvas implements Display {
                 pause();
             }
         }
-        if(state.data._win || state.data._lose) {
+        if(state._win || state._lose) {
             draw(state);
         }
 
     }
 
     @Override
-    public void initialize(GameState state) {
+    public void initialize(GameStateData state) {
         initialize(state, false);
     }
 
     @Override
-    public void draw(GameState state) {
-        if(state.data.isScared()) {
+    public void draw(GameStateData state) {
+        if(state.isScared()) {
             colorGhost = Color.CYAN;
         }
         else {
             colorGhost = Color.ORANGE;
         }
-        toDraw = state.data.toChars();
+        toDraw = state.toChars();
         int wall_radius = 50;
         int x, y;
-        for(AgentState agentState : state.data.agentStates) {
+        for(AgentState agentState : state.agentStates) {
             x = (int) agentState.getPosition().x;
             y = (int) agentState.getPosition().y;
             repaint(x*wall_radius-50,height - (y+1)*wall_radius + 5-50,150,150);

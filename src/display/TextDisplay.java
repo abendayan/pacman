@@ -27,7 +27,7 @@ public class TextDisplay implements Display {
     }
 
     @Override
-    public void initialize(GameState state, boolean isBlue) {
+    public void initialize(GameStateData state, boolean isBlue) {
         draw(state);
         pause();
         turn = 0;
@@ -35,8 +35,8 @@ public class TextDisplay implements Display {
     }
 
     @Override
-    public void update(GameState state) {
-        int numAgents = state.data.agentStates.size();
+    public void update(GameStateData state) {
+        int numAgents = state.agentStates.size();
         agentCounter = (agentCounter + 1) % numAgents;
         if(agentCounter == 0) {
             turn++;
@@ -45,20 +45,20 @@ public class TextDisplay implements Display {
                 pause();
             }
         }
-        if(state.data._win || state.data._lose) {
+        if(state._win || state._lose) {
             draw(state);
         }
 
     }
 
     @Override
-    public void initialize(GameState state) {
+    public void initialize(GameStateData state) {
         initialize(state, false);
     }
 
     @Override
-    public void draw(GameState state) {
-        System.out.println(state.data.toString());
+    public void draw(GameStateData state) {
+        System.out.println(state.toString());
     }
 
     @Override
