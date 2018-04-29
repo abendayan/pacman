@@ -1,16 +1,16 @@
 package display;
 
-import pacman.GameState;
+import game.GameStateData;
 
 public interface Display {
 
-    void initialize(GameState state, boolean isBlue);
+    void initialize(GameStateData state, boolean isBlue);
 
-    void update(GameState state);
+    void update(GameStateData state);
 
-    void initialize(GameState state);
+    void initialize(GameStateData state);
 
-    void draw(GameState state);
+    void draw(GameStateData state);
 
     void pause();
     void finish();

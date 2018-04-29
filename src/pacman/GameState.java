@@ -122,20 +122,27 @@ public class GameState {
             for(int i = 0; i < state.getNumAgents(); i++) {
                 state.data._eaten.add(false);
             }
+            Tuple positionPacman = state.getPacmanPosition();
+            if(GameState.explored.contains(positionPacman)) {
+                state.data.score--;
+            }
+            else {
+                state.data.score++;
+            }
+            if(!action.equals(Directions.STOP)) {
+                GameState.explored.add(positionPacman);
+            }
             PacmanRules.applyAction(state, action);
         }
         else {
             GhostRules.applyAction(state, action, agentIndex);
             GhostRules.decrementTimer(state.data.agentStates.get(agentIndex));
         }
+
         // Resolve multi-agent effects
         GhostRules.checkDeath(state, agentIndex);
         state.data._agentMoved = agentIndex;
         state.data.score += state.data.scoreChange;
-        if(GameState.explored.contains(state.getPacmanPosition())) {
-            state.data.score -= 1;
-        }
-        GameState.explored.add(state.getPacmanPosition());
         return state;
     }
 
