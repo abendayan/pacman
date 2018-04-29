@@ -4,7 +4,7 @@ import game.Directions;
 import pacman.GameState;
 
 public class MinimaxAgent extends  MultiAgentSearchAgent {
-    MinimaxAgent(String evalFn, int depth) {
+    public MinimaxAgent(String evalFn, Integer depth) {
         super(evalFn, depth);
     }
 

@@ -20,7 +20,7 @@ public class DirectionalGhost extends GhostAgent {
     private float probAttack;
     private float prob_scarredFlee;
 
-    public DirectionalGhost(int index) {
+    public DirectionalGhost(Integer index) {
         super(index);
         // define the probabilities for the ghost to attack or to flee in the normal configuration and when it's scared.
         probAttack = 0.8f;

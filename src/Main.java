@@ -46,7 +46,8 @@ public class Main {
             pacmanAgent = Agent.loadAgent(commands.get("-p"));
         }
         else{
-            pacmanAgent = Agent.loadAgent(commands.get("-p"), "scoreEvaluationFunction", Integer.parseInt(commands.get("depth")));
+            int depth = Integer.parseInt(commands.get("depth"));
+            pacmanAgent = Agent.loadAgent(commands.get("-p"), "scoreEvaluationFunction", depth);
         }
 
         if(pacmanAgent == null) {

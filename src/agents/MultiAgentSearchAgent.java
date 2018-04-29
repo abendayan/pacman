@@ -11,10 +11,10 @@ public abstract class MultiAgentSearchAgent extends Agent {
     Integer index;
     Integer depth;
     Method evaluationFunction;
-    MultiAgentSearchAgent(String evalFn, int depth) {
+    public MultiAgentSearchAgent(String evalFn, Integer depth) {
         index = 0;
         try {
-            evaluationFunction = Function.class.getMethod(evalFn, Float.class);
+            evaluationFunction = Function.class.getMethod(evalFn, GameState.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
