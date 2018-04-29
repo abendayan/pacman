@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class GameState {
     public GameStateData data;
-//    static HashSet<GameState> explored = new HashSet<>();
+    static HashSet<Tuple> explored = new HashSet<>();
 //
 //    static HashSet<GameState> getAndResetExplored() {
 //        HashSet<GameState> tmp = new HashSet<>(GameState.explored);
@@ -132,8 +132,10 @@ public class GameState {
         GhostRules.checkDeath(state, agentIndex);
         state.data._agentMoved = agentIndex;
         state.data.score += state.data.scoreChange;
-//        GameState.explored.add(this);
-//        GameState.explored.add(state);
+        if(GameState.explored.contains(state.getPacmanPosition())) {
+            state.data.score -= 1;
+        }
+        GameState.explored.add(state.getPacmanPosition());
         return state;
     }
 
