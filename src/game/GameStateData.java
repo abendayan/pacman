@@ -197,7 +197,12 @@ public class GameStateData {
                     numGhosts++;
                 }
             }
-            agentStates.add(new AgentState(new Configuration(agentPos.b.x, agentPos.b.y, Directions.STOP), agentPos.a == 0 ));
+            if(agentPos.a == 0) {
+                agentStates.add(0, new AgentState(new Configuration(agentPos.b.x, agentPos.b.y, Directions.STOP), true ));
+            }
+            else {
+                agentStates.add(new AgentState(new Configuration(agentPos.b.x, agentPos.b.y, Directions.STOP), false ));
+            }
         }
         _eaten = new ArrayList<>();
         for(AgentState a : agentStates) {
