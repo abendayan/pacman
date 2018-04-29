@@ -1,6 +1,7 @@
 package display;
 
 import game.GameStateData;
+import pacman.GameState;
 
 /*
     Text display.
@@ -26,7 +27,7 @@ public class TextDisplay implements Display {
     }
 
     @Override
-    public void initialize(GameStateData state, boolean isBlue) {
+    public void initialize(GameState state, boolean isBlue) {
         draw(state);
         pause();
         turn = 0;
@@ -34,8 +35,8 @@ public class TextDisplay implements Display {
     }
 
     @Override
-    public void update(GameStateData state) {
-        int numAgents = state.agentStates.size();
+    public void update(GameState state) {
+        int numAgents = state.data.agentStates.size();
         agentCounter = (agentCounter + 1) % numAgents;
         if(agentCounter == 0) {
             turn++;
@@ -44,20 +45,20 @@ public class TextDisplay implements Display {
                 pause();
             }
         }
-        if(state._win || state._lose) {
+        if(state.data._win || state.data._lose) {
             draw(state);
         }
 
     }
 
     @Override
-    public void initialize(GameStateData state) {
+    public void initialize(GameState state) {
         initialize(state, false);
     }
 
     @Override
-    public void draw(GameStateData state) {
-        System.out.println(state.toString());
+    public void draw(GameState state) {
+        System.out.println(state.data.toString());
     }
 
     @Override
