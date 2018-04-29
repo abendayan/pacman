@@ -142,7 +142,6 @@ public class GraphicDisplay extends Canvas implements Display {
     }
 
     public void paint(Graphics g) {
-        // TODO fix flickering
         g.setColor(Color.white);
         int wall_radius = 50;
         if(backBuffer == null ) {
