@@ -6,6 +6,7 @@ import pacman.GameState;
 import utils.Tuple;
 
 import java.awt.*;
+import java.util.HashSet;
 
 /*
   This class is responsible for the graphic display.
@@ -31,6 +32,7 @@ public class GraphicDisplay extends Canvas implements Display {
     private Graphics pacmanRight;
     private boolean buffer;
     private Color colorGhost;
+    private HashSet<Tuple> explored;
 
     public GraphicDisplay(int width, int height) {
         this.sleepTime = 200;
@@ -39,6 +41,7 @@ public class GraphicDisplay extends Canvas implements Display {
         this.drawEvery = 1;
         this.width = width;
         this.height = height;
+        explored = new HashSet<>();
         buffer = false;
         setSize(width, height);
         setBackground(Color.BLACK);
@@ -105,6 +108,7 @@ public class GraphicDisplay extends Canvas implements Display {
     public void update(GameState state) {
         int numAgents = state.data.agentStates.size();
         agentCounter = (agentCounter + 1) % numAgents;
+        explored = state.explored;
         if(agentCounter == 0) {
             turn++;
             if(turn%drawEvery == 0) {
@@ -151,6 +155,10 @@ public class GraphicDisplay extends Canvas implements Display {
         else {
             buffer = true;
             g.drawImage( backBuffer, 0, 0, this );
+        }
+        for(Tuple position : explored) {
+            g.setColor(Color.red);
+            g.drawRect((int)position.x*wall_radius, (int)(height - (position.y+1)*wall_radius), wall_radius, wall_radius);
         }
         for(int i = 0; i < width/wall_radius; i++) {
             for(int j = 0; j < height/wall_radius; j++) {

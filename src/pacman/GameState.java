@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class GameState {
     public GameStateData data;
-    static HashSet<Tuple> explored = new HashSet<>();
+    public static HashSet<Tuple> explored = new HashSet<>();
 //
 //    static HashSet<GameState> getAndResetExplored() {
 //        HashSet<GameState> tmp = new HashSet<>(GameState.explored);
