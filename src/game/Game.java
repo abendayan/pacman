@@ -96,7 +96,7 @@ public class Game {
     }
 
     public void run() {
-        this.display.initialize(this.state.data);
+        this.display.initialize(this.state);
         this.numMoves = 0;
         int i = 0;
         // check all the agents correctly loaded
@@ -124,7 +124,7 @@ public class Game {
             moveHistory.add(action);
             moveHistoryIndex.add(agentIndex);
             this.state = this.state.generateSuccessor(agentIndex, action);
-            this.display.update(this.state.data);
+            this.display.update(this.state);
             this.rules.process(this.state, this);
 
             // track progress
