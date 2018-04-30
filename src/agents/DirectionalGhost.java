@@ -27,6 +27,13 @@ public class DirectionalGhost extends GhostAgent {
         prob_scarredFlee = 0.8f;
     }
 
+    public DirectionalGhost(Integer index, Float probAttack, Float prob_scarredFlee) {
+        super(index);
+        // define the probabilities for the ghost to attack or to flee in the normal configuration and when it's scared.
+        this.probAttack = probAttack;
+        this.prob_scarredFlee = prob_scarredFlee;
+    }
+
     @Override
     public Counter<Directions> getDistribution(GameState gameState) {
         AgentState ghostState = gameState.getGhostState(this.index);
