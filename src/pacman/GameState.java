@@ -122,17 +122,14 @@ public class GameState {
             for(int i = 0; i < state.getNumAgents(); i++) {
                 state.data._eaten.add(false);
             }
+            PacmanRules.applyAction(state, action);
             Tuple positionPacman = state.getPacmanPosition();
             if(GameState.explored.contains(positionPacman)) {
                 state.data.score--;
             }
-            else {
-                state.data.score++;
-            }
             if(!action.equals(Directions.STOP)) {
                 GameState.explored.add(positionPacman);
             }
-            PacmanRules.applyAction(state, action);
         }
         else {
             GhostRules.applyAction(state, action, agentIndex);
