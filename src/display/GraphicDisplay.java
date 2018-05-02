@@ -33,7 +33,7 @@ public class GraphicDisplay extends Canvas implements Display {
     private Color colorGhost;
 
     public GraphicDisplay(int width, int height) {
-        this.sleepTime = 200;
+        this.sleepTime = 500;
         this.turn = 0;
         this.agentCounter = 0;
         this.drawEvery = 1;
