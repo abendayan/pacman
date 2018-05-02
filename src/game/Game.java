@@ -133,6 +133,7 @@ public class Game {
             }
             agentIndex = (agentIndex + 1) %numAgents;
         }
+        System.out.println(this.state.calledGetScore);
         this.display.finish();
     }
 }

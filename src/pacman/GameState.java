@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class GameState {
     public GameStateData data;
+    public Integer calledGetScore;
     static HashSet<Tuple> explored = new HashSet<>();
 //
 //    static HashSet<GameState> getAndResetExplored() {
@@ -87,6 +88,7 @@ public class GameState {
     }
 
     public Float getScore() {
+        this.calledGetScore++;
         return (float) this.data.score;
     }
 
@@ -145,6 +147,7 @@ public class GameState {
 
 
     GameState(GameState previousState) {
+        this.calledGetScore = previousState.calledGetScore;
         this.data = new GameStateData(previousState.data);
     }
     GameState() {
@@ -177,6 +180,7 @@ public class GameState {
     }
 
     public void initialize(Layout layout, int numGhostAgents) {
+        calledGetScore = 0;
         this.data.initialize(layout, numGhostAgents);
     }
 
