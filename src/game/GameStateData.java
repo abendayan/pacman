@@ -31,7 +31,7 @@ public class GameStateData {
         score = prevState.score;
         this.agentStates = copyAgentStates(prevState.agentStates);
 
-        _eaten = new ArrayList<>();
+        _eaten = new ArrayList<>(prevState._eaten);
         _foodAdded = null;
         _foodEaten = null;
         _capsuleEaten = null;
@@ -66,6 +66,7 @@ public class GameStateData {
         state._foodEaten = this._foodEaten;
         state._foodAdded = this._foodAdded;
         state._capsuleEaten = this._capsuleEaten;
+        state._eaten = new ArrayList<>(this._eaten);
         return state;
     }
 
