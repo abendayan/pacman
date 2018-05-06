@@ -34,6 +34,7 @@ public class Main {
         commands.put("-display", "graphic");
         commands.put("-depth", "2");
         commands.put("-ghost", "DeterministicGhost");
+        commands.put("-turns", "");
         for(int i = 0; i < args.length; i+=2) {
             commands.put(args[i], args[i+1]);
         }
