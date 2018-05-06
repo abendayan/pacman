@@ -4,6 +4,9 @@ import display.Display;
 import pacman.ClassicGameRules;
 import pacman.GameState;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,5 +144,24 @@ public class Game {
         }
         System.out.println(this.state.calledGetScore);
         this.display.finish();
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter("output.txt", "UTF-8");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        assert writer != null;
+        if(gameOver) {
+            if(this.state.isWin()) {
+                writer.println("P");
+            }
+            else {
+                writer.println("G");
+            }
+        }
+        else {
+            writer.println("TECO");
+        }
+        writer.close();
     }
 }

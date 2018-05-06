@@ -66,7 +66,7 @@ public class Main {
         }
         if(commands.get("-display").equals("text")) {
             Display display = new TextDisplay();
-            game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
+            game = rules.newGame(layout, pacmanAgent, ghostAgents, display, commands.get("-turns"));
         }
         else if(commands.get("-display").equals("graphic")) {
             Frame myFrame = new Frame("Pacman!");
@@ -85,7 +85,7 @@ public class Main {
             myFrame.addWindowListener(myWindowAdapter);
             myFrame.pack();
             myFrame.setVisible(true);
-            game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
+            game = rules.newGame(layout, pacmanAgent, ghostAgents, display, commands.get("-turns"));
         }
         assert game != null;
         game.run();
