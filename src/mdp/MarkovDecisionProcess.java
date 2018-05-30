@@ -1,8 +1,8 @@
 package mdp;
 
 import game.Directions;
-import utils.Pair;
-import utils.State;
+import utils.Counter;
+import utils.Tuple;
 
 import java.util.ArrayList;
 
@@ -11,17 +11,17 @@ public interface MarkovDecisionProcess {
     Return a list of all states in the MDP.
     Not generally possible for large MDPs.
      */
-    ArrayList<State> getStates();
+    ArrayList<Tuple> getStates();
 
     /*
     Return the start state of the MDP.
      */
-    State getStartState();
+    Tuple getStartState();
 
     /*
     Return list of possible actions from 'state'.
      */
-    ArrayList<Directions> getPossibleActions(State state);
+    ArrayList<Directions> getPossibleActions(Tuple state);
 
     /*
     Returns list of (nextState, prob) pairs
@@ -33,13 +33,13 @@ public interface MarkovDecisionProcess {
     learning in general, we do not know these
     probabilities nor do we directly model them.
      */
-    ArrayList<Pair<State, Float>> getTransitionStatesAndProbs(State state, Directions action);
+    Counter<Tuple> getTransitionStatesAndProbs(Tuple state, Directions action);
 
     /*
     Get the reward for the state, action, nextState transition.
     Not available in reinforcement learning.
      */
-    Float getReward(State state, Directions action, State nextState);
+    Float getReward(Tuple state, Directions action, Tuple nextState);
 
     /*
     Returns true if the current state is a terminal state.  By convention,
@@ -48,5 +48,5 @@ public interface MarkovDecisionProcess {
     state as having a self-loop action 'pass' with zero reward; the formulations
     are equivalent.
      */
-    boolean isTerminal(State state);
+    boolean isTerminal(Tuple state);
 }

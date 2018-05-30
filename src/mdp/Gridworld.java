@@ -2,43 +2,165 @@ package mdp;
 
 import game.Directions;
 import grid.Grid;
+import utils.Counter;
+import utils.Function;
 import utils.Pair;
-import utils.State;
+import utils.Tuple;
 
 import java.util.ArrayList;
 
 public class Gridworld implements MarkovDecisionProcess {
+    Grid grid;
+    Float livingReward;
+    Float noise;
+
     public Gridworld(Grid grid) {
+        this.grid = grid;
+        this.livingReward = 0f;
+        this.noise = 0.2f;
+    }
+
+    public Gridworld(String[][] gridText) {
+        this.grid = Grid.makeGrid(gridText);
+        this.livingReward = 0f;
+        this.noise = 0.2f;
+    }
+
+    public void setLivingReward(float reward) {
+        this.livingReward = reward;
+    }
+
+    public void setNoise(float noise) {
+        this.noise = noise;
     }
 
     @Override
-    public ArrayList<State> getStates() {
+    public ArrayList<Tuple> getStates() {
+        ArrayList<Tuple> states = new ArrayList<>();
+        for(int x = 0; x < this.grid.width; x++) {
+            for(int y = 0; y < this.grid.height; y++) {
+                if(!this.grid.data[x][y].equals("#")) {
+                    states.add(new Tuple(x, y));
+                }
+            }
+        }
+        return states;
+    }
+
+    @Override
+    public Tuple getStartState() {
+        for(int x = 0; x < this.grid.width; x++) {
+            for(int y = 0; y < this.grid.height; y++) {
+                if(!this.grid.data[x][y].equals("S")) {
+                    return new Tuple(x, y);
+                }
+            }
+        }
+        System.err.println("Grid has no start state");
+        System.exit(0);
         return null;
     }
 
     @Override
-    public State getStartState() {
-        return null;
+    public ArrayList<Directions> getPossibleActions(Tuple state) {
+        int x = (int) state.x;
+        int y = (int) state.y;
+        if(this.grid.data[x][y].equals(this.grid.terminalState)) {
+            return null;
+        }
+        ArrayList<Directions> possibleActions = new ArrayList<>();
+        if(this.grid.data[x][y].matches("^[+-]?\\d+$")) {
+            possibleActions.add(Directions.EXIT);
+        }
+        else {
+            possibleActions.add(Directions.NORTH);
+            possibleActions.add(Directions.WEST);
+            possibleActions.add(Directions.SOUTH);
+            possibleActions.add(Directions.EAST);
+        }
+        return possibleActions;
     }
 
     @Override
-    public ArrayList<Directions> getPossibleActions(State state) {
-        return null;
+    public Counter<Tuple> getTransitionStatesAndProbs(Tuple state, Directions action) {
+        if(!getPossibleActions(state).contains(action)) {
+            System.err.println("Invalid action");
+            System.exit(0);
+        }
+        Counter<Tuple> successors = new Counter<>();
+        if(isTerminal(state)) {
+            return successors;
+        }
+        int x = (int) state.x;
+        int y = (int) state.y;
+        if(Function.isInteger(this.grid.data[x][y]) || Function.isFloat(this.grid.data[x][y])) {
+            successors.addNumberTime(new Tuple(-1, -1), 1f);
+            return successors;
+        }
+        Tuple northState = state;
+        if(isAllowed(y+1, x)) {
+            northState = new Tuple(x, y+1);
+        }
+        Tuple westState = state;
+        if(isAllowed(y, x-1)) {
+            westState = new Tuple(x-1, y);
+        }
+        Tuple southState = state;
+        if(isAllowed(y-1, x)) {
+            southState = new Tuple(x, y-1);
+        }
+        Tuple eastState = state;
+        if(isAllowed(y, x-1)) {
+            eastState = new Tuple(x-1, y);
+        }
+        switch (action) {
+            case NORTH:
+                successors.addNumberExist(northState, 1 - this.noise);
+                successors.addNumberExist(westState, this.noise/2f);
+                successors.addNumberExist(eastState, this.noise/2f);
+                break;
+            case SOUTH:
+                successors.addNumberExist(southState, 1 - this.noise);
+                successors.addNumberExist(westState, this.noise/2f);
+                successors.addNumberExist(eastState, this.noise/2f);
+                break;
+            case WEST:
+                successors.addNumberExist(westState, 1 - this.noise);
+                successors.addNumberExist(northState, this.noise/2f);
+                successors.addNumberExist(southState, this.noise/2f);
+                break;
+            case EAST:
+                successors.addNumberExist(eastState, 1 - this.noise);
+                successors.addNumberExist(northState, this.noise/2f);
+                successors.addNumberExist(southState, this.noise/2f);
+                break;
+        }
+        return successors;
     }
 
     @Override
-    public ArrayList<Pair<State, Float>> getTransitionStatesAndProbs(State state, Directions action) {
-        return null;
+    public Float getReward(Tuple state, Directions action, Tuple nextState) {
+        int x = (int) state.x;
+        int y = (int) state.y;
+        String cell = this.grid.data[x][y];
+        if(cell.equals(this.grid.terminalState)) {
+            return 0f;
+        }
+        if(cell.matches("^[+-]?\\d+$")) {
+            return Float.parseFloat(cell);
+        }
+        return this.livingReward;
+    }
+
+    private boolean isAllowed(int y, int x) {
+        return y >= 0 && y < this.grid.height && x >= 0 && x < this.grid.width && !this.grid.data[x][y].equals("#");
     }
 
     @Override
-    public Float getReward(State state, Directions action, State nextState) {
-        return null;
-    }
-
-    @Override
-    public boolean isTerminal(State state) {
-        return false;
+    public boolean isTerminal(Tuple state) {
+        int x = (int) state.x;
+        int y = (int) state.y;
+        return this.grid.data[x][y].equals(this.grid.terminalState);
     }
 
     static Gridworld getCliffGrid() {

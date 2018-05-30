@@ -7,7 +7,7 @@ import java.util.*;
     It's an extension of the HashMap of java
  */
 public class Counter<T> {
-    final Map<T, Float> counts = new HashMap<>();
+    public final Map<T, Float> counts = new HashMap<>();
     Random rand = new Random();
 
     public void add(T t) {
@@ -26,6 +26,10 @@ public class Counter<T> {
         catch (java.lang.NullPointerException e) {
             addNumberTime(t, number);
         }
+    }
+
+    public Float get(T key) {
+        return counts.get(key);
     }
 
     public float count(T t) {

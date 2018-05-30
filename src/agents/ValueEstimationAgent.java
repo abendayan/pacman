@@ -1,12 +1,9 @@
 package agents;
 
-import game.Agent;
 import game.Directions;
-import pacman.GameState;
-import utils.Pair;
-import utils.State;
+import utils.Tuple;
 
-public abstract class ValueEstimationAgent extends Agent {
+public abstract class ValueEstimationAgent {
     float alpha;
     float epsilon;
     float discount;
@@ -19,9 +16,9 @@ public abstract class ValueEstimationAgent extends Agent {
         this.numTraining = numTraining;
     }
 
-    abstract Pair<State, Directions> getQValue(State state, Directions action);
+    public abstract Float getQValue(Tuple state, Directions action);
 
-    abstract Float getValue(State state);
+    public abstract Float getValue(Tuple state);
 
-    abstract Directions getPolicy(State state);
+    public abstract Directions getPolicy(Tuple state);
 }

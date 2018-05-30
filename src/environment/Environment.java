@@ -3,6 +3,7 @@ package environment;
 import game.Directions;
 import utils.Pair;
 import utils.State;
+import utils.Tuple;
 
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public abstract class Environment {
     /*
     Returns the current state of enviornment
      */
-    abstract State getCurrentState();
+    public abstract Tuple getCurrentState();
 
     /*
     Returns possible actions the agent
@@ -18,7 +19,7 @@ public abstract class Environment {
     return the empty list if we are in
     a terminal state.
      */
-    abstract ArrayList<Directions> getPossibleActions(State state);
+    public abstract ArrayList<Directions> getPossibleActions(Tuple state);
 
     /*
     Performs the given action in the current
@@ -26,18 +27,18 @@ public abstract class Environment {
 
     Returns a (reward, nextState) pair
      */
-    abstract Pair<State, Float> doAction(Directions action);
+    public abstract Pair<Tuple, Float> doAction(Directions action);
 
     /*
     Resets the current state to the start state
      */
-    abstract void reset();
+    public abstract void reset();
 
     /*
     Has the enviornment entered a terminal state? This means there are no successors
      */
     boolean isTerminal() {
-        State state = getCurrentState();
+        Tuple state = getCurrentState();
         ArrayList<Directions> actions = getPossibleActions(state);
         return actions.size() == 0;
     }

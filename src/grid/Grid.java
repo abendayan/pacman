@@ -3,10 +3,10 @@ package grid;
 import java.util.Arrays;
 
 public class Grid {
-    int width;
-    int height;
+    public int width;
+    public int height;
     String initialValue;
-    String terminalState;
+    public String terminalState;
     public String[][] data;
 
     Grid(int width, int height, String initialValue) {

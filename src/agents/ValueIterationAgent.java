@@ -1,32 +1,46 @@
 package agents;
 
 import game.Directions;
-import pacman.GameState;
-import utils.Pair;
-import utils.State;
+import mdp.MarkovDecisionProcess;
+import utils.Counter;
+import utils.Tuple;
 
 public class ValueIterationAgent extends ValueEstimationAgent {
-    ValueIterationAgent(float alpha, float epsilon, float discount, int numTraining) {
-        super(alpha, epsilon, discount, numTraining);
+    MarkovDecisionProcess mdp;
+    Counter<Tuple> values;
+    ValueIterationAgent(MarkovDecisionProcess mdp) {
+        super(1f, 0.05f, 0.8f, 100);
+        this.mdp = mdp;
+        this.values = new Counter<>();
+        // *** YOUR CODE HERE ***
     }
 
     @Override
-    Pair<State, Directions> getQValue(State state, Directions action) {
+    Float getQValue(Tuple state, Directions action) {
+        return computeQValueFromValues(state, action);
+    }
+
+    Float computeQValueFromValues(Tuple state, Directions action) {
+        // *** YOUR CODE HERE ***
+        return null;
+    }
+
+    Directions computeActionFromValues(Tuple state) {
+        // *** YOUR CODE HERE ***
         return null;
     }
 
     @Override
-    Float getValue(State state) {
-        return null;
+    public Float getValue(Tuple state) {
+        return this.values.get(state);
     }
 
     @Override
-    Directions getPolicy(State state) {
-        return null;
+    public Directions getPolicy(Tuple state) {
+        return computeActionFromValues(state);
     }
 
-    @Override
-    public Directions getAction(GameState gameState) {
-        return null;
+    public Directions getAction(Tuple state) {
+        return computeActionFromValues(state);
     }
 }

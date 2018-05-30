@@ -1,16 +1,17 @@
 package display;
 
-import game.Agent;
+import agents.ValueEstimationAgent;
 import utils.State;
+import utils.Tuple;
 
 public interface GridWorldDisplay {
     void pause();
 
     void start();
 
-    void displayValues(Agent agent, State state, String message);
+    void displayValues(ValueEstimationAgent agent, Tuple state, String message);
 
-    void displayNullValues(State state, String message);
+    void displayNullValues(Tuple state, String message);
 
-    void displayQValues(Agent agent, State state, String message);
+    void displayQValues(ValueEstimationAgent agent, Tuple state, String message);
 }
