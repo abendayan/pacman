@@ -10,7 +10,7 @@ import utils.Tuple;
 import java.util.ArrayList;
 
 public class Gridworld implements MarkovDecisionProcess {
-    Grid grid;
+    public Grid grid;
     Float livingReward;
     Float noise;
 

@@ -28,10 +28,6 @@ public class Counter<T> {
         }
     }
 
-    public Float get(T key) {
-        return counts.get(key);
-    }
-
     public float count(T t) {
         return counts.getOrDefault(t, 0f);
     }

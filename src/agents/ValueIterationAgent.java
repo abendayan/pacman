@@ -16,7 +16,7 @@ public class ValueIterationAgent extends ValueEstimationAgent {
     }
 
     @Override
-    Float getQValue(Tuple state, Directions action) {
+    public Float getQValue(Tuple state, Directions action) {
         return computeQValueFromValues(state, action);
     }
 
@@ -32,7 +32,7 @@ public class ValueIterationAgent extends ValueEstimationAgent {
 
     @Override
     public Float getValue(Tuple state) {
-        return this.values.get(state);
+        return this.values.count(state);
     }
 
     @Override
