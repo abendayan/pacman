@@ -14,10 +14,10 @@ public class Grid {
         this.height = height;
         this.initialValue = initialValue;
         this.terminalState = "TERMINAL_STATE";
-        data = new String[this.width][this.height];
+        data = new String[this.height][this.width];
         for(int y = 0; y < this.height; y++) {
             for(int x = 0; x < this.width; x++) {
-                data[x][y] = this.initialValue;
+                data[y][x] = this.initialValue;
             }
         }
     }
@@ -63,7 +63,7 @@ public class Grid {
         Grid newGrid = new Grid(width, height, " ");
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {
-                newGrid.data[x][y] = gridString[x][y];
+                newGrid.data[y][x] = gridString[y][x];
             }
         }
         return newGrid;

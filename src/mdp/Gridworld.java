@@ -163,7 +163,7 @@ public class Gridworld implements MarkovDecisionProcess {
         return this.grid.data[x][y].equals(this.grid.terminalState);
     }
 
-    static Gridworld getCliffGrid() {
+    public static Gridworld getCliffGrid() {
         String[][] grid = new String[3][];
         grid[0] = new String[]{" ", " ", " ", " ", " "};
         grid[1] = new String[]{"S", " ", " ", " ", "10"};
@@ -171,7 +171,7 @@ public class Gridworld implements MarkovDecisionProcess {
         return new Gridworld(Grid.makeGrid(grid));
     }
 
-    static Gridworld getCliffGrid2() {
+    public static Gridworld getCliffGrid2() {
         String[][] grid = new String[3][];
         grid[0] = new String[]{" ", " ", " ", " ", " "};
         grid[1] = new String[]{"8", "S", " ", " ", "10"};
@@ -179,7 +179,7 @@ public class Gridworld implements MarkovDecisionProcess {
         return new Gridworld(Grid.makeGrid(grid));
     }
 
-    static Gridworld getDiscountGrid() {
+    public static Gridworld getDiscountGrid() {
         String[][] grid = new String[5][];
         grid[0] = new String[]{" ", " ", " ", " ", " "};
         grid[1] = new String[]{" ", "#", " ", " ", " "};
@@ -189,7 +189,7 @@ public class Gridworld implements MarkovDecisionProcess {
         return new Gridworld(Grid.makeGrid(grid));
     }
 
-    static Gridworld getBridgeGrid() {
+    public static Gridworld getBridgeGrid() {
         String[][] grid = new String[3][];
         grid[0] = new String[]{"#", "-100", "-100", "-100", "-100", "-100", "#"};
         grid[1] = new String[]{"1", "S", " ", " ", " ", " ", "10"};
@@ -197,7 +197,7 @@ public class Gridworld implements MarkovDecisionProcess {
         return new Gridworld(Grid.makeGrid(grid));
     }
 
-    static Gridworld getBookGrid() {
+    public static Gridworld getBookGrid() {
         String[][] grid = new String[3][];
         grid[0] = new String[]{" ", " ", " ", "+1"};
         grid[1] = new String[]{" ", "#", " ", "-1"};
@@ -205,7 +205,7 @@ public class Gridworld implements MarkovDecisionProcess {
         return new Gridworld(Grid.makeGrid(grid));
     }
 
-    static Gridworld getMazeGrid() {
+    public static Gridworld getMazeGrid() {
         String[][] grid = new String[3][];
         grid[0] = new String[]{" ", " ", " ", "+1"};
         grid[1] = new String[]{"#", "#", " ", "#"};
