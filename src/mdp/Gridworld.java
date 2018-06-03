@@ -39,7 +39,7 @@ public class Gridworld implements MarkovDecisionProcess {
         ArrayList<Tuple> states = new ArrayList<>();
         for(int x = 0; x < this.grid.width; x++) {
             for(int y = 0; y < this.grid.height; y++) {
-                if(!this.grid.data[x][y].equals("#")) {
+                if(!this.grid.data[y][x].equals("#")) {
                     states.add(new Tuple(x, y));
                 }
             }
@@ -51,7 +51,7 @@ public class Gridworld implements MarkovDecisionProcess {
     public Tuple getStartState() {
         for(int x = 0; x < this.grid.width; x++) {
             for(int y = 0; y < this.grid.height; y++) {
-                if(!this.grid.data[x][y].equals("S")) {
+                if(!this.grid.data[y][x].equals("S")) {
                     return new Tuple(x, y);
                 }
             }
@@ -65,11 +65,11 @@ public class Gridworld implements MarkovDecisionProcess {
     public ArrayList<Directions> getPossibleActions(Tuple state) {
         int x = (int) state.x;
         int y = (int) state.y;
-        if(this.grid.data[x][y].equals(this.grid.terminalState)) {
+        if(this.grid.data[y][x].equals(this.grid.terminalState)) {
             return null;
         }
         ArrayList<Directions> possibleActions = new ArrayList<>();
-        if(this.grid.data[x][y].matches("^[+-]?\\d+$")) {
+        if(this.grid.data[y][x].matches("^[+-]?\\d+$")) {
             possibleActions.add(Directions.EXIT);
         }
         else {
@@ -93,7 +93,7 @@ public class Gridworld implements MarkovDecisionProcess {
         }
         int x = (int) state.x;
         int y = (int) state.y;
-        if(Function.isInteger(this.grid.data[x][y]) || Function.isFloat(this.grid.data[x][y])) {
+        if(Function.isInteger(this.grid.data[y][x]) || Function.isFloat(this.grid.data[y][x])) {
             successors.addNumberTime(new Tuple(-1, -1), 1f);
             return successors;
         }
@@ -142,7 +142,7 @@ public class Gridworld implements MarkovDecisionProcess {
     public Float getReward(Tuple state, Directions action, Tuple nextState) {
         int x = (int) state.x;
         int y = (int) state.y;
-        String cell = this.grid.data[x][y];
+        String cell = this.grid.data[y][x];
         if(cell.equals(this.grid.terminalState)) {
             return 0f;
         }

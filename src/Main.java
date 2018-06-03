@@ -1,6 +1,9 @@
 import agents.DirectionalGhost;
 import agents.GhostAgent;
+import agents.RandomEstimationAgent;
+import agents.ValueEstimationAgent;
 import display.*;
+import environment.GameGridWorld;
 import game.Agent;
 import game.Game;
 import layout.Layout;
@@ -36,6 +39,8 @@ public class Main {
         commands.put("-noise", "0.2");
         commands.put("-display", "text");
         commands.put("-agent", "random");
+        commands.put("-episodes", "1");
+        commands.put("-discount", "0.9");
         for(int i = 0; i < args.length; i+=2) {
             commands.put(args[i], args[i+1]);
         }
@@ -55,15 +60,34 @@ public class Main {
         GridWorldDisplay display = new TextGridWorldDisplay(mdp);
         display.start();
 
+        ValueEstimationAgent agent = null;
         switch(commands.get("-agent")) {
             case "value":
                 break;
             case "q":
                 break;
             case "random":
+                if(commands.get("-episodes").equals("0")) {
+                    commands.put("-episodes", "10");
+                }
+                agent = new RandomEstimationAgent(mdp);
                 break;
         }
 
+
+        int episodes = Integer.parseInt(commands.get("-episodes"));
+        if(episodes > 0) {
+            System.out.println("RUNNING " + commands.get("-episodes") + " EPISODES");
+        }
+        float returns = 0f;
+        GameGridWorld gameGridWorld = new GameGridWorld(display, agent, env, Float.parseFloat(commands.get("-discount")), commands.get("-agent"));
+        for(int e = 1; e <= episodes; e++) {
+            returns += gameGridWorld.runEpisode(e);
+        }
+        if(episodes > 0) {
+            float avg = returns/episodes;
+            System.out.println("AVERAGE RETURNS FROM START STATE: " + String.valueOf(avg));
+        }
 //        commands.put("-l", "mediumClassic");
 //        commands.put("-p", "KeyboardAgent");
 //        commands.put("-display", "graphic");

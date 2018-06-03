@@ -40,6 +40,7 @@ public class ValueIterationAgent extends ValueEstimationAgent {
         return computeActionFromValues(state);
     }
 
+    @Override
     public Directions getAction(Tuple state) {
         return computeActionFromValues(state);
     }

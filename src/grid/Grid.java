@@ -61,9 +61,9 @@ public class Grid {
         int height = gridString.length;
         int width = gridString[0].length;
         Grid newGrid = new Grid(width, height, " ");
-        for(int y = 0; y < height; y++) {
+        for(int y = height - 1; y >= 0; y--) {
             for(int x = 0; x < width; x++) {
-                newGrid.data[y][x] = gridString[y][x];
+                newGrid.data[y][x] = gridString[-y+height-1][x];
             }
         }
         return newGrid;

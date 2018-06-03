@@ -65,6 +65,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
         Grid grid = this.gridworld.grid;
         int maxLen = 11;
         ArrayList<ArrayList<String>> newRows = new ArrayList<>();
+//        for(int x = 0; x < grid.width; x++) {
         for(int y = 0; y < grid.height; y++) {
             ArrayList<String> newRow = new ArrayList<>();
             for(int x = 0; x < grid.width; x++) {
@@ -87,27 +88,27 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                     valString.add("");
                     valString.add(Float.toString(value));
                     valString.add("");
-                    valString.add("");
+//                    valString.add("");
                     StringBuilder temp = new StringBuilder();
                     for(int i = 0; i < maxLen; i++) {
                         temp.append(" ");
                     }
                     valString.add(temp.toString());
                 }
-                if(grid.data[x][y].equals("S")) {
+                if(grid.data[y][x].equals("S")) {
                     valString = new ArrayList<>();
                     valString.add("");
                     valString.add("");
                     valString.add("S: "+Float.toString(value));
                     valString.add("");
-                    valString.add("");
+//                    valString.add("");
                     StringBuilder temp = new StringBuilder();
                     for(int i = 0; i < maxLen; i++) {
                         temp.append(" ");
                     }
                     valString.add(temp.toString());
                 }
-                if(grid.data[x][y].equals("#")) {
+                if(grid.data[y][x].equals("#")) {
                     valString = new ArrayList<>();
                     valString.add("");
                     valString.add("#####");
@@ -186,22 +187,20 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                         String justify, boolean seperateRows, String prefix, String postfix) {
         // break each logical row into one or more physical ones
         ArrayList<ArrayList<ArrayList<String>>> logicalRows = new ArrayList<>();
-        ArrayList<ArrayList<String>> arrayRows = new ArrayList<>();
+//        ArrayList<ArrayList<String>> arrayRows = new ArrayList<>();
+        int p = 0;
         for(ArrayList<String> row : rows) {
-            arrayRows.addAll(rowWrapper(row));
+            logicalRows.add(rowWrapper(row));
+            p+=1;
         }
         // columns of physical rows
         ArrayList<ArrayList<String>> columns = new ArrayList<>();
-        int maxLen = 0;
-        for(ArrayList<ArrayList<String>> aRow : logicalRows) {
-            if(aRow.size() > maxLen) {
-                maxLen = aRow.size();
-            }
-        }
-        for(int i = 0; i < maxLen; i++) {
+        for(int i = 0; i < logicalRows.size(); i++) {
             columns.add(new ArrayList<>());
             for(ArrayList<ArrayList<String>> aRow : logicalRows) {
-                columns.get(i).add(aRow.get(0).get(i));
+                for(ArrayList<String> inRow : aRow) {
+                    columns.get(i).add(inRow.get(i));
+                }
             }
         }
         ArrayList<Integer> maxWidth = new ArrayList<>();
@@ -230,7 +229,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
             i = 0;
             for(ArrayList<String> row : physicalRows) {
                 indentResult += prefix;
-                i+=1;
+
                 for(String item : row) {
                     switch (justify) {
                         case "center":
@@ -248,6 +247,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                     }
                 }
                 indentResult += postfix;
+                i+=1;
             }
             if(seperateRows || hasHeader) {
                 hasHeader = false;
@@ -273,8 +273,11 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
             }
         }
         for(int i = 0; i < maxLen; i++) {
+            if(result.size() <= i) {
+                result.add(new ArrayList<>());
+            }
             for(ArrayList<String> aRow : newRows) {
-                if(aRow.size() < i) {
+                if(aRow.size() > i) {
                     result.get(i).add(aRow.get(i));
                 }
                 else {
@@ -510,6 +513,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
             pieces.append("-");
         }
         pieces.append("\n");
+        pieces.append("|");
         for(int i = 0; i < length + 2; i++) {
             pieces.append(" ");
         }

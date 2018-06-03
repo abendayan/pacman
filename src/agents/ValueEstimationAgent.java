@@ -21,4 +21,6 @@ public abstract class ValueEstimationAgent {
     public abstract Float getValue(Tuple state);
 
     public abstract Directions getPolicy(Tuple state);
+
+    public abstract Directions getAction(Tuple state);
 }
