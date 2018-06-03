@@ -13,7 +13,7 @@ import java.util.*;
 
 public class TextGridWorldDisplay implements GridWorldDisplay {
     Gridworld gridworld;
-    TextGridWorldDisplay(Gridworld gridworld) {
+    public TextGridWorldDisplay(Gridworld gridworld) {
         this.gridworld = gridworld;
     }
 

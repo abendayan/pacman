@@ -1,12 +1,11 @@
 import agents.DirectionalGhost;
 import agents.GhostAgent;
-import display.Display;
-import display.GraphicDisplay;
-import display.TextDisplay;
+import display.*;
 import game.Agent;
 import game.Game;
 import layout.Layout;
 import mdp.Gridworld;
+import mdp.GridworldEnvironment;
 import pacman.ClassicGameRules;
 
 import java.awt.*;
@@ -34,19 +33,36 @@ public class Main {
         commands.put("-type", "grid");
         commands.put("-grid", "BookGrid");
         commands.put("-livingReward", "0.0");
+        commands.put("-noise", "0.2");
+        commands.put("-display", "text");
+        commands.put("-agent", "random");
         for(int i = 0; i < args.length; i+=2) {
             commands.put(args[i], args[i+1]);
         }
-        Gridworld gridworld = null;
+        Gridworld mdp = null;
         try {
             Method gridWorldLoader = Gridworld.class.getMethod("get" + commands.get("-grid"));
-            gridworld = (Gridworld) gridWorldLoader.invoke(null);
+            mdp = (Gridworld) gridWorldLoader.invoke(null);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             System.exit(0);
         }
-        assert gridworld != null;
+        assert mdp != null;
+        mdp.setLivingReward(Float.parseFloat(commands.get("-livingReward")));
+        mdp.setNoise(Float.parseFloat(commands.get("-noise")));
+        GridworldEnvironment env = new GridworldEnvironment(mdp);
 
+        GridWorldDisplay display = new TextGridWorldDisplay(mdp);
+        display.start();
+
+        switch(commands.get("-agent")) {
+            case "value":
+                break;
+            case "q":
+                break;
+            case "random":
+                break;
+        }
 
 //        commands.put("-l", "mediumClassic");
 //        commands.put("-p", "KeyboardAgent");

@@ -15,7 +15,7 @@ public class GridworldEnvironment extends Environment {
     Tuple state;
 
 
-    GridworldEnvironment(Gridworld gridworld) {
+    public GridworldEnvironment(Gridworld gridworld) {
         this.gridworld = gridworld;
         reset();
     }
