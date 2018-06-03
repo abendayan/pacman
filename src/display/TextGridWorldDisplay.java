@@ -112,11 +112,8 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                     valString = new ArrayList<>();
                     valString.add("");
                     valString.add("#####");
-                    valString.add("");
                     valString.add("#####");
-                    valString.add("");
                     valString.add("#####");
-                    valString.add("");
                     StringBuilder temp = new StringBuilder();
                     for(int i = 0; i < maxLen; i++) {
                         temp.append(" ");
@@ -195,7 +192,13 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
         }
         // columns of physical rows
         ArrayList<ArrayList<String>> columns = new ArrayList<>();
-        for(int i = 0; i < logicalRows.size(); i++) {
+        int maxLen = 0;
+        for(ArrayList<ArrayList<String>> aRow : logicalRows) {
+            if(aRow.size() > maxLen) {
+                maxLen = aRow.size();
+            }
+        }
+        for(int i = 0; i < maxLen; i++) {
             columns.add(new ArrayList<>());
             for(ArrayList<ArrayList<String>> aRow : logicalRows) {
                 for(ArrayList<String> inRow : aRow) {
@@ -226,14 +229,19 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
         }
         int i;
         for(ArrayList<ArrayList<String>> physicalRows : logicalRows) {
-            i = 0;
+
             for(ArrayList<String> row : physicalRows) {
                 indentResult += prefix;
-
+                i = 0;
                 for(String item : row) {
                     switch (justify) {
                         case "center":
-                            indentResult += Function.centerString(maxWidth.get(i), item);
+                            if(item.equals("")) {
+                                indentResult += Function.centerString(maxWidth.get(i), item + " ");
+                            }
+                            else {
+                                indentResult += Function.centerString(maxWidth.get(i), item);
+                            }
                             break;
                         case "left":
                             indentResult += Function.padLeft(maxWidth.get(i), item);
@@ -245,9 +253,10 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                     if(i < row.size() - 1) {
                         indentResult += delim;
                     }
+                    i += 1;
                 }
                 indentResult += postfix;
-                i+=1;
+                indentResult += "\n";
             }
             if(seperateRows || hasHeader) {
                 hasHeader = false;

@@ -19,8 +19,10 @@ public class Function {
     }
 
     public static String centerString (int width, String s) {
-        s = padLeft(width/2, s);
-        s = padRight(width/2, s);
+        int padLengthLeft = (int) Math.floor((double)(width-s.length()) / 2);
+        int padLengthRight = (int) Math.ceil((double)(width-s.length()) / 2);
+        s = padLeft(padLengthLeft, s);
+        s = padRight(padLengthRight, s);
         return s;
     }
 
