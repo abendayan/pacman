@@ -51,7 +51,7 @@ public class Gridworld implements MarkovDecisionProcess {
     public Tuple getStartState() {
         for(int x = 0; x < this.grid.width; x++) {
             for(int y = 0; y < this.grid.height; y++) {
-                if(!this.grid.data[y][x].equals("S")) {
+                if(this.grid.data[y][x].equals("S")) {
                     return new Tuple(x, y);
                 }
             }
@@ -153,7 +153,7 @@ public class Gridworld implements MarkovDecisionProcess {
     }
 
     private boolean isAllowed(int y, int x) {
-        return y >= 0 && y < this.grid.height && x >= 0 && x < this.grid.width && !this.grid.data[x][y].equals("#");
+        return y >= 0 && y < this.grid.height && x >= 0 && x < this.grid.width && !this.grid.data[y][x].equals("#");
     }
 
     @Override
@@ -206,7 +206,7 @@ public class Gridworld implements MarkovDecisionProcess {
     }
 
     public static Gridworld getMazeGrid() {
-        String[][] grid = new String[3][];
+        String[][] grid = new String[5][];
         grid[0] = new String[]{" ", " ", " ", "+1"};
         grid[1] = new String[]{"#", "#", " ", "#"};
         grid[2] = new String[]{" ", "#", " ", " "};
