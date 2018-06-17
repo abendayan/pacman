@@ -1,7 +1,4 @@
-import agents.DirectionalGhost;
-import agents.GhostAgent;
-import agents.RandomEstimationAgent;
-import agents.ValueEstimationAgent;
+import agents.*;
 import display.*;
 import environment.GameGridWorld;
 import game.Agent;
@@ -41,6 +38,7 @@ public class Main {
         commands.put("-agent", "random");
         commands.put("-episodes", "1");
         commands.put("-discount", "0.9");
+        commands.put("-i", "100");
         for(int i = 0; i < args.length; i+=2) {
             commands.put(args[i], args[i+1]);
         }
@@ -63,6 +61,7 @@ public class Main {
         ValueEstimationAgent agent = null;
         switch(commands.get("-agent")) {
             case "value":
+                agent = new ValueIterationAgent(mdp, Integer.parseInt(commands.get("-i")));
                 break;
             case "q":
                 break;
