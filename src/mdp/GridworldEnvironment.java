@@ -13,6 +13,7 @@ import java.util.Random;
 public class GridworldEnvironment extends Environment {
     Gridworld gridworld;
     Tuple state;
+    Random rand = new Random();
 
 
     public GridworldEnvironment(Gridworld gridworld) {
@@ -34,13 +35,13 @@ public class GridworldEnvironment extends Environment {
     public Pair<Tuple, Float> doAction(Directions action) {
         Tuple state = getCurrentState();
         Pair<Tuple, Float> state_reward = getRandomNextState(state, action);
-        this.state = state_reward.getL();
+        this.state = new Tuple(state_reward.getL());
         return state_reward;
     }
 
     private Pair<Tuple, Float> getRandomNextState(Tuple state, Directions action) {
         float sum = 0f;
-        Random rand = new Random();
+
         float prob = rand.nextFloat();
         Counter<Tuple> successors = this.gridworld.getTransitionStatesAndProbs(state, action);
         for(Map.Entry<Tuple, Float> successor : successors.counts.entrySet()) {

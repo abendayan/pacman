@@ -81,7 +81,10 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                 }
                 ArrayList<String> valString = new ArrayList<>();
                 if(action.equals(Directions.EXIT)) {
-                    valString.add(border(Float.toString(value)));
+                    String[] borderString =  border(Float.toString(value)).split("\n");
+                    for(String bord : borderString) {
+                        valString.add(bord);
+                    }
                 }
                 else {
                     valString.add("");

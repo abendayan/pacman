@@ -10,6 +10,11 @@ public class Tuple {
         this.y = y;
     }
 
+    public Tuple(Tuple other) {
+        this.x = other.x;
+        this.y = other.y;
+    }
+
     @Override
     public String toString() {
         return "(" + x + "," + y + ")";

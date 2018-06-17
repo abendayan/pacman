@@ -65,10 +65,14 @@ public class Gridworld implements MarkovDecisionProcess {
     public ArrayList<Directions> getPossibleActions(Tuple state) {
         int x = (int) state.x;
         int y = (int) state.y;
-        if(this.grid.data[y][x].equals(this.grid.terminalState)) {
-            return null;
-        }
         ArrayList<Directions> possibleActions = new ArrayList<>();
+        if(x == -1 || y == -1) {
+            return possibleActions;
+        }
+        if(this.grid.data[y][x].equals(this.grid.terminalState)) {
+            return possibleActions;
+        }
+
         if(this.grid.data[y][x].matches("^[+-]?\\d+$")) {
             possibleActions.add(Directions.EXIT);
         }
@@ -110,8 +114,8 @@ public class Gridworld implements MarkovDecisionProcess {
             southState = new Tuple(x, y-1);
         }
         Tuple eastState = state;
-        if(isAllowed(y, x-1)) {
-            eastState = new Tuple(x-1, y);
+        if(isAllowed(y, x+1)) {
+            eastState = new Tuple(x+1, y);
         }
         switch (action) {
             case NORTH:
@@ -160,7 +164,7 @@ public class Gridworld implements MarkovDecisionProcess {
     public boolean isTerminal(Tuple state) {
         int x = (int) state.x;
         int y = (int) state.y;
-        return this.grid.data[x][y].equals(this.grid.terminalState);
+        return this.grid.data[y][x].equals(this.grid.terminalState);
     }
 
     public static Gridworld getCliffGrid() {
