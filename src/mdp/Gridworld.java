@@ -164,7 +164,7 @@ public class Gridworld implements MarkovDecisionProcess {
     public boolean isTerminal(Tuple state) {
         int x = (int) state.x;
         int y = (int) state.y;
-        return this.grid.data[y][x].equals(this.grid.terminalState);
+        return (x == -1 && y == -1) || this.grid.data[y][x].equals(this.grid.terminalState);
     }
 
     public static Gridworld getCliffGrid() {
