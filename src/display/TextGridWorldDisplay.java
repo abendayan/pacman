@@ -420,23 +420,23 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                 }
                 String northString = " ";
                 if(qStrings.containsKey(Directions.NORTH)) {
-                    northString = "north";
+                    northString = qStrings.get(Directions.NORTH);
                 }
                 String southString = " ";
                 if(qStrings.containsKey(Directions.SOUTH)) {
-                    southString = "south";
+                    southString = qStrings.get(Directions.SOUTH);
                 }
                 String eastString = " ";
                 if(qStrings.containsKey(Directions.EAST)) {
-                    eastString = "east";
+                    eastString = qStrings.get(Directions.EAST);
                 }
                 String westString = " ";
                 if(qStrings.containsKey(Directions.WEST)) {
-                    westString = "west";
+                    westString = qStrings.get(Directions.WEST);
                 }
                 String exitString = " ";
                 if(qStrings.containsKey(Directions.EXIT)) {
-                    exitString = "exit";
+                    exitString = qStrings.get(Directions.EXIT);
                 }
                 int eastLen = eastString.length();
                 int westLen = westString.length();
