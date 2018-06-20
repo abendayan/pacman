@@ -34,10 +34,10 @@ public class GameGridWorld {
         while(true) {
             Tuple state = this.env.getCurrentState();
             if(agentType.equals("q")) {
-                this.display.displayQValues(this.agent, state, "CURRENT Q-VALUES");
+                this.display.displayQValues(this.agent, state, "CURRENT Q-VALUES", false);
             }
             else {
-                this.display.displayValues(this.agent, state, "CURRENT VALUES");
+                this.display.displayValues(this.agent, state, "CURRENT VALUES", false);
             }
 
             // end if in a terminal state

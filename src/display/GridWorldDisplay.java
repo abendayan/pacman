@@ -10,9 +10,9 @@ public interface GridWorldDisplay {
 
     void start();
 
-    void displayValues(ValueEstimationAgent agent, Tuple state, String message);
+    void displayValues(ValueEstimationAgent agent, Tuple state, String message, boolean printToFile);
 
     void displayNullValues(Tuple state, String message);
 
-    void displayQValues(ValueEstimationAgent agent, Tuple state, String message);
+    void displayQValues(ValueEstimationAgent agent, Tuple state, String message, boolean printToFile);
 }

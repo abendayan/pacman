@@ -23,4 +23,8 @@ public class PacmanQAgent extends Agent{
         qLearningAgent.doAction(state, action);
         return action;
     }
+
+    public void registerInitialState() {
+        qLearningAgent.registerInitialState();
+    }
 }

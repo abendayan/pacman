@@ -109,8 +109,14 @@ public class Main {
                 System.out.println("AVERAGE RETURNS FROM START STATE: " + String.valueOf(avg));
             }
             if(commands.get("-agent").equals("q")) {
-                display.displayQValues(agent, new Tuple(-2, -2), "QVALUES");
-                display.displayValues(agent, new Tuple(-2, -2), "VALUES");
+                display.displayQValues(agent, new Tuple(-2, -2), "QVALUES", false);
+                display.displayQValues(agent, new Tuple(-2, -2), "QVALUES", true);
+                display.displayValues(agent, new Tuple(-2, -2), "VALUES", false);
+                display.displayValues(agent, new Tuple(-2, -2), "VALUES", true);
+            }
+            else {
+                display.displayValues(agent, new Tuple(-2, -2), "VALUES", false);
+                display.displayValues(agent, new Tuple(-2, -2), "VALUES", true);
             }
         }
         else {
@@ -164,31 +170,14 @@ public class Main {
                         myFrame.setVisible(true);
                     }
                 }
-                game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
+                game = rules.newGame(layout, pacmanAgent, ghostAgents, display, beQuiet);
                 assert game != null;
                 game.run();
                 if(game.state.isWin()) {
                     numWin++;
                 }
             }
+
         }
-
-//        commands.put("-l", "mediumClassic");
-//        commands.put("-p", "KeyboardAgent");
-//        commands.put("-display", "graphic");
-//        commands.put("-ghost", "DirectionalGhost");
-
-//        Layout layout = Layout.getLayout(commands.get("-l"));
-//        if(layout == null) {
-//            System.err.println("The file did not load!");
-//        }
-//        Agent pacmanAgent = Agent.loadAgent(commands.get("-p"));
-
-//        ClassicGameRules rules = new ClassicGameRules();
-//        Game game = null;
-
-
-//        assert game != null;
-//        game.run();
     }
 }

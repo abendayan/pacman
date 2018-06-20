@@ -93,4 +93,12 @@ public abstract class ReinforcementAgent extends ValueEstimationAgent {
         this.lastState = state;
         this.lastAction = action;
     }
+
+    // Functions specific to Pacman
+    public void registerInitialState() {
+        startEpisode();
+        if(this.episodesSoFar == 0) {
+            System.out.println("Beginning " + this.numTraining);
+        }
+    }
 }

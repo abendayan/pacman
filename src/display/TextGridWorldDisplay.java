@@ -10,6 +10,9 @@ import utils.Function;
 import utils.Pair;
 import utils.Tuple;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 public class TextGridWorldDisplay implements GridWorldDisplay {
@@ -25,7 +28,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
     public void start() {}
 
     @Override
-    public void displayValues(ValueEstimationAgent agent, Tuple currentState, String message) {
+    public void displayValues(ValueEstimationAgent agent, Tuple currentState, String message, boolean printToFile) {
         if(!message.equals("")) {
             System.out.println(message);
         }
@@ -36,7 +39,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
             values.addNumberTime(state, agent.getValue(state));
             policy.put(state, agent.getPolicy(state));
         }
-        prettyPrintValues(values, policy, currentState);
+        prettyPrintValues(values, policy, currentState, printToFile);
     }
 
     @Override
@@ -48,7 +51,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
     }
 
     @Override
-    public void displayQValues(ValueEstimationAgent agent, Tuple currentState, String message) {
+    public void displayQValues(ValueEstimationAgent agent, Tuple currentState, String message, boolean printToFile) {
         if(!message.equals("")) {
             System.out.println(message);
         }
@@ -59,10 +62,10 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                 qvalues.addNumberTime(new Pair<>(state, action), agent.getQValue(state, action));
             }
         }
-        prettyPrintQValues(qvalues, currentState, "");
+        prettyPrintQValues(qvalues, currentState, "", printToFile);
     }
 
-    private void prettyPrintValues(Counter<Tuple> values, Map<Tuple, Directions> policy, Tuple currentState) {
+    private void prettyPrintValues(Counter<Tuple> values, Map<Tuple, Directions> policy, Tuple currentState, boolean printToFile) {
         Grid grid = this.gridworld.grid;
         int maxLen = 11;
         ArrayList<ArrayList<String>> newRows = new ArrayList<>();
@@ -181,7 +184,20 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
         ArrayList<ArrayList<String>> finalRows = new ArrayList<ArrayList<String>>();
         finalRows.add(colLabels);
         finalRows.addAll(newRows);
-        System.out.println(indent(finalRows, true, "-", "|", "center", true, "|", "|"));
+        if(printToFile) {
+            PrintWriter writer = null;
+            try {
+                writer = new PrintWriter("values.txt", "UTF-8");
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            writer.println(indent(finalRows, true, "-", "|", "center", true, "|", "|"));
+            writer.close();
+
+        }
+        else {
+            System.out.println(indent(finalRows, true, "-", "|", "center", true, "|", "|"));
+        }
     }
 
     private String indent(ArrayList<ArrayList<String>> rows, boolean hasHeader, String headerChar, String delim,
@@ -390,108 +406,106 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
 
     }
 
-    private void prettyPrintQValues(Counter<Pair<Tuple, Directions>> qvalues, Tuple currentState, String message) {
+    private void prettyPrintQValues(Counter<Pair<Tuple, Directions>> qvalues, Tuple currentState, String message, boolean printToFile) {
         Grid grid = this.gridworld.grid;
         int maxLen = 11;
         ArrayList<ArrayList<String>> newRows = new ArrayList<>();
-        for(int y = 0; y < grid.height; y++) {
+        for (int y = 0; y < grid.height; y++) {
             ArrayList<String> newRow = new ArrayList<>();
-            for(int x = 0; x < grid.width; x++) {
+            for (int x = 0; x < grid.width; x++) {
                 Tuple state = new Tuple(x, y);
                 ArrayList<Directions> actions = this.gridworld.getPossibleActions(state);
-                if(actions.size() == 0) {
+                if (actions.size() == 0) {
                     actions = new ArrayList<>();
                     actions.add(null);
                 }
                 Float bestQ = Float.NEGATIVE_INFINITY;
-                for(Directions action : actions) {
-                    if(qvalues.count(new Pair<>(state, action)) > bestQ) {
+                for (Directions action : actions) {
+                    if (qvalues.count(new Pair<>(state, action)) > bestQ) {
                         bestQ = qvalues.count(new Pair<>(state, action));
                     }
                 }
                 ArrayList<Directions> bestActions = new ArrayList<>();
-                for(Directions action : actions) {
-                    if(qvalues.count(new Pair<>(state, action)) == bestQ) {
+                for (Directions action : actions) {
+                    if (qvalues.count(new Pair<>(state, action)) == bestQ) {
                         bestActions.add(action);
                     }
                 }
                 Map<Directions, String> qStrings = new HashMap<>();
-                for(Directions action : actions) {
+                for (Directions action : actions) {
                     qStrings.put(action, String.valueOf(qvalues.count(new Pair<>(state, action))));
                 }
                 String northString = " ";
-                if(qStrings.containsKey(Directions.NORTH)) {
+                if (qStrings.containsKey(Directions.NORTH)) {
                     northString = qStrings.get(Directions.NORTH);
                 }
                 String southString = " ";
-                if(qStrings.containsKey(Directions.SOUTH)) {
+                if (qStrings.containsKey(Directions.SOUTH)) {
                     southString = qStrings.get(Directions.SOUTH);
                 }
                 String eastString = " ";
-                if(qStrings.containsKey(Directions.EAST)) {
+                if (qStrings.containsKey(Directions.EAST)) {
                     eastString = qStrings.get(Directions.EAST);
                 }
                 String westString = " ";
-                if(qStrings.containsKey(Directions.WEST)) {
+                if (qStrings.containsKey(Directions.WEST)) {
                     westString = qStrings.get(Directions.WEST);
                 }
                 String exitString = " ";
-                if(qStrings.containsKey(Directions.EXIT)) {
+                if (qStrings.containsKey(Directions.EXIT)) {
                     exitString = qStrings.get(Directions.EXIT);
                 }
                 int eastLen = eastString.length();
                 int westLen = westString.length();
-                if(eastLen < westLen) {
+                if (eastLen < westLen) {
                     String temp = "";
-                    for(int i = 0; i < (westLen - eastLen); i++) {
+                    for (int i = 0; i < (westLen - eastLen); i++) {
                         temp += " ";
                     }
                     eastString = temp + eastString;
                 }
-                if(westLen < eastLen) {
+                if (westLen < eastLen) {
                     String temp = "";
-                    for(int i = 0; i < (eastLen - westLen); i++) {
+                    for (int i = 0; i < (eastLen - westLen); i++) {
                         temp += " ";
                     }
                     westString += temp;
                 }
-                if(bestActions.contains(Directions.NORTH)) {
+                if (bestActions.contains(Directions.NORTH)) {
                     northString = "/" + northString + "\\";
                 }
-                if(bestActions.contains(Directions.SOUTH)) {
+                if (bestActions.contains(Directions.SOUTH)) {
                     southString = "\\" + southString + "/";
                 }
-                if(bestActions.contains(Directions.EAST)) {
-                    eastString+= ">";
-                }
-                else {
+                if (bestActions.contains(Directions.EAST)) {
+                    eastString += ">";
+                } else {
                     eastString += " ";
                 }
-                if(bestActions.contains(Directions.WEST)) {
+                if (bestActions.contains(Directions.WEST)) {
                     westString = "<" + westString;
-                }
-                else {
+                } else {
                     westString = " " + westString;
                 }
-                if(bestActions.contains(Directions.EXIT)) {
+                if (bestActions.contains(Directions.EXIT)) {
                     exitString = "[ " + exitString + " ]";
                 }
                 String ewString = westString + "     " + eastString;
-                if(state.equals(currentState)) {
+                if (state.equals(currentState)) {
                     ewString = westString + "  *  " + eastString;
                 }
-                if(state.equals(this.gridworld.getStartState())) {
+                if (state.equals(this.gridworld.getStartState())) {
                     ewString = westString + "  S  " + eastString;
                 }
-                if(state.equals(currentState) && state.equals(this.gridworld.getStartState())) {
+                if (state.equals(currentState) && state.equals(this.gridworld.getStartState())) {
                     ewString = westString + " S:* " + eastString;
                 }
-                String text = northString + "\n" + "\n"+exitString + "\n" + ewString + "\n";
-                for(int i = 0; i < maxLen; i++) {
+                String text = northString + "\n" + "\n" + exitString + "\n" + ewString + "\n";
+                for (int i = 0; i < maxLen; i++) {
                     text += " ";
                 }
                 text += "\n\n" + southString;
-                if(grid.data[y][x].equals("#")) {
+                if (grid.data[y][x].equals("#")) {
                     text = "\n\n#####\n#####\n#####\n";
                 }
                 newRow.add(text);
@@ -499,19 +513,32 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
             newRows.add(newRow);
         }
         int numCols = grid.width;
-        for(int i = 0; i < newRows.size(); i++) {
+        for (int i = 0; i < newRows.size(); i++) {
             newRows.get(i).add(0, "\n\n\n" + Integer.toString(i));
         }
         Collections.reverse(newRows);
         ArrayList<String> colLabels = new ArrayList<>();
-        for(int colNum = 0; colNum < numCols; colNum++) {
+        for (int colNum = 0; colNum < numCols; colNum++) {
             colLabels.add(Integer.toString(colNum));
         }
         colLabels.add(0, " ");
         ArrayList<ArrayList<String>> finalRows = new ArrayList<ArrayList<String>>();
         finalRows.add(colLabels);
         finalRows.addAll(newRows);
-        System.out.println(indent(finalRows, true, "-", "|", "center", true, "|", "|"));
+        if (printToFile) {
+            PrintWriter writer = null;
+            try {
+                writer = new PrintWriter("values.txt", "UTF-8");
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            writer.println(indent(finalRows, true, "-", "|", "center", true, "|", "|"));
+            writer.close();
+
+        }
+        else {
+            System.out.println(indent(finalRows, true, "-", "|", "center", true, "|", "|"));
+        }
     }
 
     private String border(String value) {
