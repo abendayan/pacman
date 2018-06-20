@@ -37,4 +37,19 @@ public class RandomEstimationAgent extends ValueEstimationAgent  {
         int index = random.nextInt(actions.size());
         return actions.get(index);
     }
+
+    @Override
+    public void observeTransition(Tuple state, Directions action, Tuple nextState, Float deltaReward) {
+        // DO NOTHING
+    }
+
+    @Override
+    public void startEpisode() {
+        // DO NOTHING
+    }
+
+    @Override
+    public void stopEpisode() {
+        // DO NOTHING
+    }
 }

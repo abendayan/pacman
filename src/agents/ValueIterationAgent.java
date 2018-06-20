@@ -44,4 +44,19 @@ public class ValueIterationAgent extends ValueEstimationAgent {
     public Directions getAction(Tuple state) {
         return computeActionFromValues(state);
     }
+
+    @Override
+    public void observeTransition(Tuple state, Directions action, Tuple nextState, Float deltaReward) {
+        // DO NOTHING
+    }
+
+    @Override
+    public void startEpisode() {
+        // DO NOTHING
+    }
+
+    @Override
+    public void stopEpisode() {
+        // DO NOTHING
+    }
 }

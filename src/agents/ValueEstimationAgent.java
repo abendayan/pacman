@@ -23,4 +23,10 @@ public abstract class ValueEstimationAgent {
     public abstract Directions getPolicy(Tuple state);
 
     public abstract Directions getAction(Tuple state);
+
+    public abstract void observeTransition(Tuple state, Directions action, Tuple nextState, Float deltaReward);
+
+    public abstract void startEpisode();
+
+    public abstract void stopEpisode();
 }

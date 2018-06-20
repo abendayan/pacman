@@ -29,6 +29,7 @@ public abstract class ReinforcementAgent extends ValueEstimationAgent {
         return mdp.getPossibleActions(state);
     }
 
+    @Override
     public void observeTransition(Tuple state, Directions action, Tuple nextState, Float deltaReward) {
         this.episodeRewards += deltaReward;
         update(state, action, nextState, deltaReward);

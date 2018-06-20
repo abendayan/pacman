@@ -1,5 +1,6 @@
 package display;
 
+import agents.QLearningAgent;
 import agents.ValueEstimationAgent;
 import game.Directions;
 import grid.Grid;
@@ -402,7 +403,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                     actions = new ArrayList<>();
                     actions.add(null);
                 }
-                Float bestQ = 0f;
+                Float bestQ = Float.NEGATIVE_INFINITY;
                 for(Directions action : actions) {
                     if(qvalues.count(new Pair<>(state, action)) > bestQ) {
                         bestQ = qvalues.count(new Pair<>(state, action));

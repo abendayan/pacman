@@ -1,5 +1,6 @@
 package display;
 
+import agents.QLearningAgent;
 import agents.ValueEstimationAgent;
 import utils.State;
 import utils.Tuple;
