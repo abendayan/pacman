@@ -11,14 +11,15 @@ import java.util.ArrayList;
 public class PacmanQAgent extends Agent{
     QLearningAgent qLearningAgent;
 
-    public PacmanQAgent(float alpha, float epsilon, float discount, int numTraining, MarkovDecisionProcess mdp) {
-        qLearningAgent = new QLearningAgent(alpha, epsilon, discount, numTraining, mdp);
+    public PacmanQAgent(float alpha, float epsilon, float discount, int numTraining) {
+        qLearningAgent = new QLearningAgent(alpha, epsilon, discount, numTraining);
+
     }
 
     @Override
     public Directions getAction(GameState gameState) {
         Tuple state = gameState.getPacmanPosition();
-        Directions action = qLearningAgent.getAction(state);
+        Directions action = qLearningAgent.getAction(gameState);
         qLearningAgent.doAction(state, action);
         return action;
     }

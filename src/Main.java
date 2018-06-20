@@ -44,25 +44,33 @@ public class Main {
         commands.put("-l", "mediumClassic");
         commands.put("-numGames", "2010");
         commands.put("-numTraining", "10");
-
-
-        Gridworld mdp = null;
-        try {
-            Method gridWorldLoader = Gridworld.class.getMethod("get" + commands.get("-grid"));
-            mdp = (Gridworld) gridWorldLoader.invoke(null);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            System.exit(0);
+        commands.put("-display", "graphic");
+        commands.put("-ghost", "DirectionalGhost");
+        for(int i = 0; i < args.length; i+=2) {
+            commands.put(args[i], args[i+1]);
         }
-        assert mdp != null;
-        mdp.setLivingReward(Float.parseFloat(commands.get("-livingReward")));
-        mdp.setNoise(Float.parseFloat(commands.get("-noise")));
+
+
         if(commands.get("-type") == "grid")  {
-            commands.put("-discount", "0.9");
-            commands.put("-epsilon", "0.5");
-            commands.put("-alpha", "0.5");
-            for(int i = 0; i < args.length; i+=2) {
-                commands.put(args[i], args[i+1]);
+            Gridworld mdp = null;
+            try {
+                Method gridWorldLoader = Gridworld.class.getMethod("get" + commands.get("-grid"));
+                mdp = (Gridworld) gridWorldLoader.invoke(null);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
+            assert mdp != null;
+            mdp.setLivingReward(Float.parseFloat(commands.get("-livingReward")));
+            mdp.setNoise(Float.parseFloat(commands.get("-noise")));
+            if(!commands.containsKey("-discount")) {
+                commands.put("-discount", "0.9");
+            }
+            if(!commands.containsKey("-epsilon")) {
+                commands.put("-epsilon", "0.5");
+            }
+            if(!commands.containsKey("-alpha")) {
+                commands.put("-alpha", "0.5");
             }
 
             GridworldEnvironment env = new GridworldEnvironment(mdp);
@@ -106,14 +114,16 @@ public class Main {
             }
         }
         else {
-            commands.put("-display", "graphic");
-            commands.put("-discount", "0.8");
-            commands.put("-epsilon", "0.05");
-            commands.put("-alpha", "0.2");
-            commands.put("-ghost", "DirectionalGhost");
-            for(int i = 0; i < args.length; i+=2) {
-                commands.put(args[i], args[i+1]);
+            if(!commands.containsKey("-discount")) {
+                commands.put("-discount", "0.8");
             }
+            if(!commands.containsKey("-epsilon")) {
+                commands.put("-epsilon", "0.05");
+            }
+            if(!commands.containsKey("-alpha")) {
+                commands.put("-alpha", "0.2");
+            }
+
 
             ClassicGameRules rules = new ClassicGameRules();
             int numTraining = Integer.parseInt(commands.get("-numTraining"));
@@ -121,7 +131,7 @@ public class Main {
             boolean beQuiet;
             Display display = new QuietDisplay();
             Layout layout = Layout.getLayout(commands.get("-l"));
-            PacmanQAgent pacmanAgent = new PacmanQAgent(Float.parseFloat(commands.get("-alpha")), Float.parseFloat(commands.get("-epsilon")), Float.parseFloat(commands.get("-discount")), Integer.parseInt(commands.get("-i")), mdp);
+            PacmanQAgent pacmanAgent = new PacmanQAgent(Float.parseFloat(commands.get("-alpha")), Float.parseFloat(commands.get("-epsilon")), Float.parseFloat(commands.get("-discount")), Integer.parseInt(commands.get("-i")));
             ArrayList<GhostAgent> ghostAgents = new ArrayList<>();
             assert layout != null;
             if(layout.numGhosts > 0) {
@@ -137,7 +147,6 @@ public class Main {
                 if(!beQuiet) {
                     if(commands.get("-display").equals("text")) {
                         display = new TextDisplay();
-                        game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
                     }
                     else if(commands.get("-display").equals("graphic")) {
                         display = new GraphicDisplay(layout.width, layout.height);
@@ -153,10 +162,9 @@ public class Main {
                         myFrame.addWindowListener(myWindowAdapter);
                         myFrame.pack();
                         myFrame.setVisible(true);
-                        game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
-
                     }
                 }
+                game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
                 assert game != null;
                 game.run();
                 if(game.state.isWin()) {
