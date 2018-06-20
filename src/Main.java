@@ -38,6 +38,8 @@ public class Main {
         commands.put("-agent", "random");
         commands.put("-episodes", "1");
         commands.put("-discount", "0.9");
+        commands.put("-epsilon", "0.5");
+        commands.put("-alpha", "0.5");
         commands.put("-i", "100");
         for(int i = 0; i < args.length; i+=2) {
             commands.put(args[i], args[i+1]);
@@ -64,6 +66,7 @@ public class Main {
                 agent = new ValueIterationAgent(mdp, Integer.parseInt(commands.get("-i")));
                 break;
             case "q":
+                agent = new QLearningAgent(Float.parseFloat(commands.get("-alpha")), Float.parseFloat(commands.get("-epsilon")), Float.parseFloat(commands.get("-discount")), Integer.parseInt(commands.get("-i")), mdp);
                 break;
             case "random":
                 if(commands.get("-episodes").equals("0")) {
