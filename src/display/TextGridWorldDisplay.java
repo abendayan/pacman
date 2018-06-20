@@ -195,12 +195,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
         }
         // columns of physical rows
         ArrayList<ArrayList<String>> columns = new ArrayList<>();
-        int maxLen = 0;
-        for(ArrayList<ArrayList<String>> aRow : logicalRows) {
-            if(aRow.size() > maxLen) {
-                maxLen = aRow.size();
-            }
-        }
+        int maxLen = logicalRows.get(0).get(0).size();
         for(int i = 0; i < maxLen; i++) {
             columns.add(new ArrayList<>());
             for(ArrayList<ArrayList<String>> aRow : logicalRows) {
