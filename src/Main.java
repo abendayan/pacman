@@ -7,6 +7,7 @@ import layout.Layout;
 import mdp.Gridworld;
 import mdp.GridworldEnvironment;
 import pacman.ClassicGameRules;
+import utils.Tuple;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -89,6 +90,10 @@ public class Main {
         if(episodes > 0) {
             float avg = returns/episodes;
             System.out.println("AVERAGE RETURNS FROM START STATE: " + String.valueOf(avg));
+        }
+        if(commands.get("-agent").equals("q")) {
+            display.displayQValues(agent, new Tuple(-2, -2), "QVALUES");
+            display.displayValues(agent, new Tuple(-2, -2), "VALUES");
         }
 //        commands.put("-l", "mediumClassic");
 //        commands.put("-p", "KeyboardAgent");

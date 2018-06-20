@@ -490,7 +490,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
                     text += " ";
                 }
                 text += "\n\n" + southString;
-                if(grid.data[x][y].equals("#")) {
+                if(grid.data[y][x].equals("#")) {
                     text = "\n\n#####\n#####\n#####\n";
                 }
                 newRow.add(text);
