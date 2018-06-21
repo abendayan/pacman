@@ -126,9 +126,6 @@ public class GameState {
             }
             PacmanRules.applyAction(state, action);
             Tuple positionPacman = state.getPacmanPosition();
-//            if(GameState.explored.contains(positionPacman)) {
-//                state.data.score--;
-//            }
             if(!action.equals(Directions.STOP)) {
                 GameState.explored.add(positionPacman);
             }
