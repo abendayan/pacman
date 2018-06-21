@@ -151,17 +151,7 @@ public class Game {
             e.printStackTrace();
         }
         assert writer != null;
-        if(gameOver) {
-            if(this.state.isWin()) {
-                writer.println("P");
-            }
-            else {
-                writer.println("G");
-            }
-        }
-        else {
-            writer.println("TECO");
-        }
+        writer.println(this.state.calledGetScore);
         writer.close();
     }
 }

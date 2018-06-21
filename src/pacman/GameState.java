@@ -11,6 +11,7 @@ import java.util.Set;
 public class GameState {
     public GameStateData data;
     public Integer calledGetScore;
+    public Integer calledExplored = 0;
     static HashSet<Tuple> explored = new HashSet<>();
 //
 //    static HashSet<GameState> getAndResetExplored() {
@@ -139,12 +140,14 @@ public class GameState {
         GhostRules.checkDeath(state, agentIndex);
         state.data._agentMoved = agentIndex;
         state.data.score += state.data.scoreChange;
+        this.calledExplored++;
         return state;
     }
 
 
     GameState(GameState previousState) {
         this.calledGetScore = previousState.calledGetScore;
+        this.calledExplored = previousState.calledExplored;
         this.data = new GameStateData(previousState.data);
     }
     GameState() {
