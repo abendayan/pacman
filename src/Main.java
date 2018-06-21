@@ -30,7 +30,7 @@ public class Main {
      */
     public static void main(String[] args) {
         commands.put("-l", "mediumClassic");
-        commands.put("-p", "KeyboardAgent");
+        commands.put("-p", "MinimaxAgent");
         commands.put("-display", "graphic");
         commands.put("-depth", "2");
         commands.put("-ghost", "RandomGhost");
@@ -71,9 +71,6 @@ public class Main {
             Frame myFrame = new Frame("Pacman!");
             GraphicDisplay display = new GraphicDisplay(50*layout.width, 50*layout.height);
             myFrame.add(display);
-            if(commands.get("-p").equals("KeyboardAgent")) {
-                display.addKeyListener((KeyListener) pacmanAgent);
-            }
             display.setFocusable(true);
             WindowAdapter myWindowAdapter = new WindowAdapter(){
                 public void windowClosing(WindowEvent e) {

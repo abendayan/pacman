@@ -3,9 +3,20 @@ package agents;
 import game.Directions;
 import pacman.GameState;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
 public class MinimaxAgent extends  MultiAgentSearchAgent {
+    PrintWriter writer = null;
     public MinimaxAgent(String evalFn, Integer depth) {
         super(evalFn, depth);
+        try {
+            writer = new PrintWriter("output.txt", "UTF-8");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        assert writer != null;
     }
 
     /*
@@ -26,6 +37,10 @@ public class MinimaxAgent extends  MultiAgentSearchAgent {
     @Override
     public Directions getAction(GameState gameState) {
         // **** YOUR CODE HERE *****
+        // YOU NEED TO WRITE INTO THE FILE THE RESULT AFTER THE MINIMAX
+        // IF THE PACMAN WILL LOOSE, WRITE "-inf"
+        // IF THE PACMAN WILL WIN, WRITE "+inf"
+        // OTHERWISE, WRITE THE NUMBER OF FOOD EATEN
         return null;
     }
 }

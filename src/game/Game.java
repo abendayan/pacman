@@ -112,41 +112,19 @@ public class Game {
             agent.registerInitialState(state.deepCopy());
             i++;
         }
-        int agentIndex = this.startingIndex;
-        int numAgents = this.agents.size();
+        int agentIndex = 0;
 
-        int moveTime;
-        boolean skipAction;
         Directions action;
-        while(!gameOver) {
-            Agent agent = agents.get(agentIndex);
-            moveTime = 0;
-            skipAction = false;
-            GameState observation = this.state.deepCopy();
-            action = agent.getAction(observation);
-            moveHistory.add(action);
-            moveHistoryIndex.add(agentIndex);
-            this.state = this.state.generateSuccessor(agentIndex, action);
-            this.display.update(this.state.data);
-            this.rules.process(this.state, this);
+        Agent agent = agents.get(agentIndex);
+        GameState observation = this.state.deepCopy();
+        action = agent.getAction(observation);
+        moveHistory.add(action);
+        moveHistoryIndex.add(agentIndex);
+        this.state = this.state.generateSuccessor(agentIndex, action);
+        this.display.update(this.state.data);
+        this.rules.process(this.state, this);
 
-            // track progress
-            if(agentIndex == numAgents + 1) {
-                this.numMoves++;
-            }
-            agentIndex = (agentIndex + 1) % numAgents;
-        }
-//        PrintWriter writer = null;
-//        try {
-//            writer = new PrintWriter("output.txt", "UTF-8");
-//        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        assert writer != null;
-//        System.out.println(this.state.calledExplored);
-//        writer.println(this.state.calledExplored);
-        this.state.writer.close();
-//        System.out.println(this.state.calledGetScore);
+
         this.display.finish();
     }
 }
