@@ -26,10 +26,8 @@ public class Game {
     Display display;
     public GameState state;
     int numMoves;
-    boolean finishTurns;
-    int numberTurns;
 
-    public Game(ArrayList<Agent> agents, Display display, ClassicGameRules rules, String turns) {
+    public Game(ArrayList<Agent> agents, Display display, ClassicGameRules rules) {
         this.startingIndex = 0;
         this.agentCrashed = false;
         this.agents = new ArrayList<>(agents);
@@ -47,10 +45,6 @@ public class Game {
         }
         this.agentTimeout = false;
         this.moveHistoryIndex = new ArrayList<>();
-        finishTurns = !turns.equals("");
-        if(finishTurns) {
-            numberTurns = Integer.parseInt(turns);
-        }
     }
 
     public Game(ArrayList<Agent> agents, Display display, ClassicGameRules rules, int startingIndex) {
@@ -124,7 +118,7 @@ public class Game {
         int moveTime;
         boolean skipAction;
         Directions action;
-        while(!gameOver || (this.finishTurns && this.numMoves < this.numberTurns)) {
+        while(!gameOver) {
             Agent agent = agents.get(agentIndex);
             moveTime = 0;
             skipAction = false;
@@ -142,8 +136,6 @@ public class Game {
             }
             agentIndex = (agentIndex + 1) % numAgents;
         }
-        System.out.println(this.state.calledGetScore);
-        this.display.finish();
         PrintWriter writer = null;
         try {
             writer = new PrintWriter("output.txt", "UTF-8");
@@ -151,7 +143,10 @@ public class Game {
             e.printStackTrace();
         }
         assert writer != null;
-        writer.println(this.state.calledGetScore);
+        System.out.println(this.state.calledExplored);
+        writer.println(this.state.calledExplored);
         writer.close();
+        System.out.println(this.state.calledGetScore);
+        this.display.finish();
     }
 }

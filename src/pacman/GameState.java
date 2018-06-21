@@ -11,7 +11,7 @@ import java.util.Set;
 public class GameState {
     public GameStateData data;
     public Integer calledGetScore;
-    public Integer calledExplored = 0;
+    public Integer calledExplored;
     static HashSet<Tuple> explored = new HashSet<>();
 //
 //    static HashSet<GameState> getAndResetExplored() {
@@ -141,6 +141,7 @@ public class GameState {
         state.data._agentMoved = agentIndex;
         state.data.score += state.data.scoreChange;
         this.calledExplored++;
+        state.calledExplored = this.calledExplored;
         return state;
     }
 
@@ -152,6 +153,7 @@ public class GameState {
     }
     GameState() {
         this.data = new GameStateData();
+        this.calledExplored = 0;
     }
 
     public int getNumAgents() {

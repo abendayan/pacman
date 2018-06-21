@@ -21,7 +21,7 @@ public class ClassicGameRules {
         timeout = times;
     }
 
-    public Game newGame(Layout layout, Agent pacmanAgent, ArrayList<GhostAgent> ghostAgents, Display display, String turns) {
+    public Game newGame(Layout layout, Agent pacmanAgent, ArrayList<GhostAgent> ghostAgents, Display display) {
         ArrayList<Agent> agents = new ArrayList<>();
         agents.add(pacmanAgent);
         for(GhostAgent ghost : ghostAgents) {
@@ -29,7 +29,7 @@ public class ClassicGameRules {
         }
         GameState initState = new GameState();
         initState.initialize(layout, ghostAgents.size());
-        Game game = new Game(agents, display, this, turns);
+        Game game = new Game(agents, display, this);
         game.state = initState;
         quiet = false;
         initialState = initState.deepCopy();
@@ -37,7 +37,7 @@ public class ClassicGameRules {
     }
 
     public Game newGame(Layout layout, Agent pacmanAgent, ArrayList<GhostAgent> ghostAgents, Display display, boolean quiet) {
-        Game game = newGame(layout, pacmanAgent, ghostAgents, display, "");
+        Game game = newGame(layout, pacmanAgent, ghostAgents, display);
         this.quiet = true;
         return game;
     }

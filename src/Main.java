@@ -34,7 +34,6 @@ public class Main {
         commands.put("-display", "graphic");
         commands.put("-depth", "2");
         commands.put("-ghost", "RandomGhost");
-        commands.put("-turns", "");
         for(int i = 0; i < args.length; i+=2) {
             commands.put(args[i], args[i+1]);
         }
@@ -46,7 +45,7 @@ public class Main {
         if(commands.get("-p").equals("KeyboardAgent")) {
             pacmanAgent = Agent.loadAgent(commands.get("-p"));
         }
-        else{
+        else {
             int depth = Integer.parseInt(commands.get("-depth"));
             pacmanAgent = Agent.loadAgent(commands.get("-p"), "scoreEvaluationFunction", depth);
         }
@@ -66,7 +65,7 @@ public class Main {
         }
         if(commands.get("-display").equals("text")) {
             Display display = new TextDisplay();
-            game = rules.newGame(layout, pacmanAgent, ghostAgents, display, commands.get("-turns"));
+            game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
         }
         else if(commands.get("-display").equals("graphic")) {
             Frame myFrame = new Frame("Pacman!");
@@ -85,7 +84,7 @@ public class Main {
             myFrame.addWindowListener(myWindowAdapter);
             myFrame.pack();
             myFrame.setVisible(true);
-            game = rules.newGame(layout, pacmanAgent, ghostAgents, display, commands.get("-turns"));
+            game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
         }
         assert game != null;
         game.run();
