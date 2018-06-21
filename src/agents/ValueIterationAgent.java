@@ -8,8 +8,8 @@ import utils.Tuple;
 public class ValueIterationAgent extends ValueEstimationAgent {
     MarkovDecisionProcess mdp;
     Counter<Tuple> values;
-    public ValueIterationAgent(MarkovDecisionProcess mdp, int numTraining) {
-        super(1f, 0.05f, 0.8f, numTraining);
+    public ValueIterationAgent(MarkovDecisionProcess mdp, int numTraining, float epsilon, float discount, float alpha) {
+        super(alpha, epsilon, discount, numTraining);
         this.mdp = mdp;
         this.values = new Counter<>();
         // *** YOUR CODE HERE ***

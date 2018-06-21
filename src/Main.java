@@ -67,7 +67,7 @@ public class Main {
                 commands.put("-discount", "0.9");
             }
             if(!commands.containsKey("-epsilon")) {
-                commands.put("-epsilon", "0.5");
+                commands.put("-epsilon", "0.3");
             }
             if(!commands.containsKey("-alpha")) {
                 commands.put("-alpha", "0.5");
@@ -81,7 +81,7 @@ public class Main {
             ValueEstimationAgent agent = null;
             switch(commands.get("-agent")) {
                 case "value":
-                    agent = new ValueIterationAgent(mdp, Integer.parseInt(commands.get("-i")));
+                    agent = new ValueIterationAgent(mdp, Integer.parseInt(commands.get("-i")), Float.parseFloat(commands.get("-epsilon")),  Float.parseFloat(commands.get("-discount")), Float.parseFloat(commands.get("-alpha")));
                     break;
                 case "q":
                     agent = new QLearningAgent(Float.parseFloat(commands.get("-alpha")), Float.parseFloat(commands.get("-epsilon")), Float.parseFloat(commands.get("-discount")), Integer.parseInt(commands.get("-i")), mdp);
@@ -100,6 +100,16 @@ public class Main {
                 System.out.println("RUNNING " + commands.get("-episodes") + " EPISODES");
             }
             float returns = 0f;
+            if(commands.get("-agent").equals("q")) {
+                display.displayQValues(agent, new Tuple(-2, -2), "QVALUES", false);
+                display.displayQValues(agent, new Tuple(-2, -2), "QVALUES", true);
+                display.displayValues(agent, new Tuple(-2, -2), "VALUES", false);
+                display.displayValues(agent, new Tuple(-2, -2), "VALUES", true);
+            }
+            else {
+                display.displayValues(agent, new Tuple(-2, -2), "VALUES", false);
+                display.displayValues(agent, new Tuple(-2, -2), "VALUES", true);
+            }
             GameGridWorld gameGridWorld = new GameGridWorld(display, agent, env, Float.parseFloat(commands.get("-discount")), commands.get("-agent"));
             for(int e = 1; e <= episodes; e++) {
                 returns += gameGridWorld.runEpisode(e);

@@ -4,9 +4,9 @@ import game.Directions;
 import utils.Tuple;
 
 public abstract class ValueEstimationAgent {
-    float alpha;
-    float epsilon;
-    float discount;
+    public float alpha;
+    public float epsilon;
+    public float discount;
     int numTraining;
 
     ValueEstimationAgent(float alpha, float epsilon, float discount, int numTraining) {
