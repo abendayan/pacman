@@ -529,7 +529,7 @@ public class TextGridWorldDisplay implements GridWorldDisplay {
         if (printToFile) {
             PrintWriter writer = null;
             try {
-                writer = new PrintWriter("values.txt", "UTF-8");
+                writer = new PrintWriter("qvalues.txt", "UTF-8");
             } catch (FileNotFoundException | UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

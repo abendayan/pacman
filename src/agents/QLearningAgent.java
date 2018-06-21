@@ -1,11 +1,7 @@
 package agents;
 
 import game.Directions;
-import mdp.Gridworld;
 import mdp.MarkovDecisionProcess;
-import pacman.GameState;
-import utils.Counter;
-import utils.Pair;
 import utils.Tuple;
 
 import java.util.ArrayList;
@@ -13,11 +9,6 @@ import java.util.ArrayList;
 public class QLearningAgent extends ReinforcementAgent {
     public QLearningAgent(float alpha, float epsilon, float discount, int numTraining, MarkovDecisionProcess mdp) {
         super(alpha, epsilon, discount, numTraining, mdp);
-        // *** YOUR CODE HERE ***
-    }
-
-    public QLearningAgent(float alpha, float epsilon, float discount, int numTraining) {
-        super(alpha, epsilon, discount, numTraining);
         // *** YOUR CODE HERE ***
     }
 
@@ -42,28 +33,14 @@ public class QLearningAgent extends ReinforcementAgent {
         return computeActionFromQValues(state);
     }
 
-    public Directions getPolicy(GameState gameState) {
-        return computeActionFromQValues(gameState);
-    }
-
     public Directions computeActionFromQValues(Tuple state) {
         // *** YOUR CODE HERE ***
         return null;
     }
 
-    public Directions computeActionFromQValues(GameState gameState) {
-        // *** YOUR CODE HERE ***
-        return Directions.STOP;
-    }
-
     @Override
     public Directions getAction(Tuple state) {
         ArrayList<Directions> legalActions = getLegalActions(state);
-        // *** YOUR CODE HERE ***
-        return null;
-    }
-
-    public Directions getAction(GameState gameState) {
         // *** YOUR CODE HERE ***
         return null;
     }

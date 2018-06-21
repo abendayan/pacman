@@ -2,7 +2,6 @@ package agents;
 
 import game.Directions;
 import mdp.MarkovDecisionProcess;
-import pacman.GameState;
 import utils.Tuple;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ public abstract class ReinforcementAgent extends ValueEstimationAgent {
     int episodesSoFar;
     Float accumTrainRewards;
     Float accumTestRewards;
-    boolean withMdp;
 
     ReinforcementAgent(float alpha, float epsilon, float discount, int numTraining, MarkovDecisionProcess mdp) {
         super(alpha, epsilon, discount, numTraining);
@@ -23,26 +21,12 @@ public abstract class ReinforcementAgent extends ValueEstimationAgent {
         this.episodesSoFar = 0;
         this.accumTrainRewards = 0f;
         this.accumTestRewards = 0f;
-        this.withMdp = true;
-    }
-
-    public ReinforcementAgent(float alpha, float epsilon, float discount, int numTraining) {
-        super(alpha, epsilon, discount, numTraining);
-        this.mdp = mdp;
-        this.episodesSoFar = 0;
-        this.accumTrainRewards = 0f;
-        this.accumTestRewards = 0f;
-        this.withMdp = false;
     }
 
     public abstract void update(Tuple state, Directions action, Tuple nextState, Float reward);
 
     public ArrayList<Directions> getLegalActions(Tuple state) {
         return mdp.getPossibleActions(state);
-    }
-
-    public ArrayList<Directions> getLegalActions(GameState gameState) {
-        return gameState.getLegalAction(0);
     }
 
     @Override
