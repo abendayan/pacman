@@ -34,6 +34,7 @@ public class Main {
         commands.put("-display", "graphic");
         commands.put("-depth", "2");
         commands.put("-ghost", "RandomGhost");
+        commands.put("-run", "0");
         for(int i = 0; i < args.length; i+=2) {
             commands.put(args[i], args[i+1]);
         }
@@ -84,6 +85,12 @@ public class Main {
             game = rules.newGame(layout, pacmanAgent, ghostAgents, display);
         }
         assert game != null;
+        if(commands.get("-run").equals("0")) {
+            game.runUntilTheEnd = false;
+        }
+        else {
+            game.runUntilTheEnd = true;
+        }
         game.run();
     }
 }

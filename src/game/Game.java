@@ -26,6 +26,7 @@ public class Game {
     Display display;
     public GameState state;
     int numMoves;
+    public boolean runUntilTheEnd;
 
     public Game(ArrayList<Agent> agents, Display display, ClassicGameRules rules) {
         this.startingIndex = 0;
@@ -113,16 +114,24 @@ public class Game {
             i++;
         }
         int agentIndex = 0;
-
+        int numAgents = this.agents.size();
         Directions action;
-        Agent agent = agents.get(agentIndex);
-        GameState observation = this.state.deepCopy();
-        action = agent.getAction(observation);
-        moveHistory.add(action);
-        moveHistoryIndex.add(agentIndex);
-        this.state = this.state.generateSuccessor(agentIndex, action);
-        this.display.update(this.state.data);
-        this.rules.process(this.state, this);
+        do {
+            Agent agent = agents.get(agentIndex);
+            GameState observation = this.state.deepCopy();
+            action = agent.getAction(observation);
+            moveHistory.add(action);
+            moveHistoryIndex.add(agentIndex);
+            this.state = this.state.generateSuccessor(agentIndex, action);
+            this.display.update(this.state.data);
+            this.rules.process(this.state, this);
+
+            // track progress
+            if(agentIndex == numAgents + 1) {
+                this.numMoves++;
+            }
+            agentIndex = (agentIndex + 1) %numAgents;
+        } while(!gameOver && runUntilTheEnd);
 
 
         this.display.finish();
