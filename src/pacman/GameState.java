@@ -4,6 +4,9 @@ import game.*;
 import layout.Layout;
 import utils.Tuple;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +16,7 @@ public class GameState {
     public Integer calledGetScore;
     public Integer calledExplored;
     static HashSet<Tuple> explored = new HashSet<>();
+    public PrintWriter writer;
 //
 //    static HashSet<GameState> getAndResetExplored() {
 //        HashSet<GameState> tmp = new HashSet<>(GameState.explored);
@@ -142,6 +146,8 @@ public class GameState {
         state.data.score += state.data.scoreChange;
         this.calledExplored++;
         state.calledExplored = this.calledExplored;
+        writer.println(1);
+        state.writer = this.writer;
         return state;
     }
 
@@ -150,10 +156,16 @@ public class GameState {
         this.calledGetScore = previousState.calledGetScore;
         this.calledExplored = previousState.calledExplored;
         this.data = new GameStateData(previousState.data);
+        this.writer = previousState.writer;
     }
     GameState() {
         this.data = new GameStateData();
         this.calledExplored = 0;
+        try {
+            writer = new PrintWriter("output.txt", "UTF-8");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getNumAgents() {

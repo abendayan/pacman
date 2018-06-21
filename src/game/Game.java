@@ -136,17 +136,17 @@ public class Game {
             }
             agentIndex = (agentIndex + 1) % numAgents;
         }
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter("output.txt", "UTF-8");
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        assert writer != null;
-        System.out.println(this.state.calledExplored);
-        writer.println(this.state.calledExplored);
-        writer.close();
-        System.out.println(this.state.calledGetScore);
+//        PrintWriter writer = null;
+//        try {
+//            writer = new PrintWriter("output.txt", "UTF-8");
+//        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//        assert writer != null;
+//        System.out.println(this.state.calledExplored);
+//        writer.println(this.state.calledExplored);
+        this.state.writer.close();
+//        System.out.println(this.state.calledGetScore);
         this.display.finish();
     }
 }
