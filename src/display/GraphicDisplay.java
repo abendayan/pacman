@@ -108,7 +108,6 @@ public class GraphicDisplay extends Canvas implements Display {
     public void update(GameStateData state) {
         int numAgents = state.agentStates.size();
         agentCounter = (agentCounter + 1) % numAgents;
-        explored = state.explored;
         if(agentCounter == 0) {
             turn++;
             if(turn%drawEvery == 0) {
